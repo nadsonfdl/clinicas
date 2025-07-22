@@ -5,82 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Clínicas IGUT</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-/..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --background-color: #f1f5f9;
-            --card-background: #ffffff;
-            --text-color: #1f2937;
-            --accent-color: #0ea5e9;
-        }
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--background-color);
-            color: var(--text-color);
-        }
-        header {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .select-clinic {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        #clinicSelect {
-            width: 60%;
-            max-width: 400px;
-        }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .card {
-            background: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 1rem;
-            text-align: center;
-            transition: transform 0.2s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card h3 {
-            margin-bottom: 0.5rem;
-            color: var(--secondary-color);
-        }
-        .card i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
-        }
-        .loading {
-            text-align: center;
-            color: var(--secondary-color);
-            font-size: 1.2rem;
-        }
-        .hidden {
-            display: none;
-        }
-        .total-valor {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -92,8 +18,9 @@
             <label for="clinicSelect">Selecione uma Clínica:</label><br>
             <select id="clinicSelect">
                 <option value="">-- Escolha uma clínica --</option>
-                <!-- Lista dinâmica aqui -->
             </select>
+            <br>
+            <button id="buscarBtn">Buscar</button>
         </div>
 
         <div id="loading" class="loading hidden">
@@ -130,111 +57,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
-    <script>
-        const clinics = [
-        "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
-        "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
-        "amesaude", "andros", "apercepcao", "aphrodite", "aptorax", "arche", "ares",
-        "asas", "attuare", "aura", "ayresmed", "barbaraneffa", "bariinject", "bioaisthesis",
-        "bioregenera", "blink", "bluetower", "bmh", "borduni", "brucesalles", "bsbcirurgia",
-        "bsbotorrino", "cadi", "cami", "capilmed", "cardiologia", "ccddf", "ccw", "cdai",
-        "cemefe", "centrodeaneurisma", "centrodigestivo", "clepp", "clifali", "climed",
-        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicafluxus",
-        "clinicagrisolia", "clinicamedlago", "clinicapopular", "clinicarehgio", "clinicaseg",
-        "clinicasingular", "clinos", "cliu", "coisadepele", "conexaonucleo", "conferemed",
-        "corpore", "costasouza", "csma", "curare", "darealvim", "darlaneoliver", "demo",
-        "dermaavancada", "dermacapelli", "dermattoconceito", "dfneuro", "dordogama",
-        "dralexandre", "dramonica", "dranatalia", "drci", "drfabio", "drleonardo", "drpaulo",
-        "elevee", "eliformiga", "ellaclinique", "endoeforma", "endolight",
-        "endometriosebrasilia", "espacophysio", "essenciaplena", "estivalet", "etca",
-        "eterna", "faesa", "fakhouri", "falareouvir", "fasciani", "fauve", "fenestra",
-        "ferrara", "fisioclin", "fisiocorpore", "fisioterape", "florescer", "fluir",
-        "fluxusjmv", "fonoclin", "gastrocentro", "gastrosul", "gc", "gedab", "ginemasto",
-        "grupoelas", "grutorax", "guerir", "gustavogouveia", "gustavosela", "hairdoc",
-        "hairsp", "hairuberaba", "hairuberlandia", "hineni", "homecor", "humanita", "ibes",
-        "ibrafisio", "icbari", "ilitia", "imovbsb", "info", "inspcor", "inspirarotorrino",
-        "inspire", "inspireal", "institutocorha", "institutodofigado", "institutoreluz",
-        "institutosanches", "intertorax", "interv", "intf", "inthorax", "intorax",
-        "invideo", "jaevelly", "jdrb", "jf", "leblanc", "lessence", "leticiaoba",
-        "leticiapaulino", "lifevision", "liliane", "links", "live", "llp", "lovit", "lovitls",
-        "majestic", "mamaecegonha", "mastershape", "medar", "medco", "medigastro",
-        "medinutri", "medlago", "melaredo", "meraki", "miletto", "montblanc", "multicei",
-        "neootorrino", "neurodor", "neuromed", "neurosinapse", "nfegc", "norteortopedia",
-        "nubiagoulart", "nubiasantana", "otocap", "otocare", "otocatedral", "otoclinica",
-        "otoclinicabrasilia", "otomedbh", "otoplus", "otorrinobrasilia", "otorrinodf",
-        "otorrinoms", "otorrinopatos", "otorrinopatosimac", "ouvir", "oxyclin", "pacientes",
-        "painel", "pantheon", "pectus", "pellevitta", "perfectclinic", "perinato", "philos",
-        "plenitude", "pleniture", "plexus", "pneumologia", "policlinica", "primafattura",
-        "primapelle", "proctoclinica", "producao", "psimelissa", "pulsional", "reability",
-        "rededay", "reggia", "renassance", "renovare", "resiliencia", "respiraral",
-        "respirardf", "revigore", "revita", "rfpediatria", "ruah", "sanar", "sanity",
-        "santabarbara", "saocamilo", "sartore", "selectasaude", "selectavie", "sense",
-        "serhumano", "slim", "solarea", "soniaferri", "soul", "steniomeirelles",
-        "studioschwerz", "sublime", "thaisteles", "thorax", "tivolly", "toracicaalagoas",
-        "toraxlinea", "travessia", "triangeli", "unicakids", "unidadedosonobsb", "uniprocto",
-        "uniq", "urocentro", "urogama", "urogin", "urology", "uros", "vathos",
-        "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
-    ];
-
-        $(document).ready(function() {
-            $('#clinicSelect').select2({
-                placeholder: "Digite para buscar uma clínica...",
-                allowClear: true
-            });
-        });
-
-        const clinicSelect = document.getElementById('clinicSelect');
-        const loading = document.getElementById('loading');
-        const dashboard = document.getElementById('dashboard');
-        const valorTotal = document.getElementById('valorTotal');
-        const valorLicenca = document.getElementById('valorLicenca');
-
-        clinics.forEach(clinic => {
-            const option = document.createElement('option');
-            option.value = clinic;
-            option.textContent = clinic;
-            clinicSelect.appendChild(option);
-        });
-
-        clinicSelect.addEventListener('change', () => {
-            const selectedClinic = clinicSelect.value;
-            if (!selectedClinic) {
-                dashboard.classList.add('hidden');
-                valorTotal.classList.add('hidden');
-                return;
-            }
-            loading.classList.remove('hidden');
-            dashboard.classList.add('hidden');
-            valorTotal.classList.add('hidden');
-
-            fetch(`https://${selectedClinic}.igutclinicas.com.br/aplicativos/info`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('licencas').innerHTML = JSON.stringify(data.licencas, null, 2);
-                    document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
-                    document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
-                    document.getElementById('notas').innerHTML = JSON.stringify(data.notas, null, 2);
-
-                    // Calcula valor total
-                    const crm = parseInt(data.licencas.CRM) || 0;
-                    let outros = 0;
-                    const outrosKeys = ['COREN', 'CRFA', 'CRP', 'SEM'];
-                    outrosKeys.forEach(key => {
-                        outros += parseInt(data.licencas[key]) || 0;
-                    });
-                    const valor = crm * 100 + outros * 50;
-                    valorLicenca.textContent = `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-
-                    loading.classList.add('hidden');
-                    dashboard.classList.remove('hidden');
-                    valorTotal.classList.remove('hidden');
-                })
-                .catch(err => {
-                    loading.classList.add('hidden');
-                    alert("Erro ao buscar dados da clínica.");
-                    console.error(err);
-                });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
