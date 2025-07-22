@@ -1,4 +1,13 @@
-const clinics = [
+document.addEventListener('DOMContentLoaded', () => {
+    const clinicSelect = $('#clinicSelect'); // Usando jQuery para Select2
+    const buscarBtn = document.getElementById('buscarBtn');
+    const dashboard = document.getElementById('dashboard');
+    const loadingDiv = document.getElementById('loading');
+    const valorTotalDiv = document.getElementById('valorTotal');
+    const valorLicencaSpan = document.getElementById('valorLicenca');
+
+    // Lista completa de clínicas
+    const clinics = [
         "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
         "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
         "amesaude", "andros", "apercepcao", "aphrodite", "aptorax", "arche", "ares",
@@ -43,107 +52,72 @@ const clinics = [
         "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
     ];
 
-$(document).ready(function () {
-    $('#clinicSelect').select2({
-        placeholder: "Digite para buscar uma clínica...",
-        allowClear: true
+    // Popula o select com as clínicas
+    clinics.forEach(clinic => {
+        const option = new Option(clinic, clinic);
+        clinicSelect.append(option);
     });
-});
 
-const clinicSelect = document.getElementById('clinicSelect');
-const buscarBtn = document.getElementById('buscarBtn');
-const loading = document.getElementById('loading');
-const dashboard = document.getElementById('dashboard');
-const valorTotal = document.getElementById('valorTotal');
-const valorLicenca = document.getElementById('valorLicenca');
-
-clinics.forEach(clinic => {
-    const option = document.createElement('option');
-    option.value = clinic;
-    option.textContent = clinic;
-    clinicSelect.appendChild(option);
-});
-
-buscarBtn.addEventListener('click', () => {
-    const selectedClinic = clinicSelect.value;
-    if (!selectedClinic) {
-        alert("Selecione uma clínica antes de buscar.");
-        return;
-    }
-    loading.classList.remove('hidden');
-    dashboard.classList.add('hidden');
-    valorTotal.classList.add('hidden');
-
-    fetch(`https://${selectedClinic}.igutclinicas.com.br/aplicativos/info`)
-        .then(res => {
-            if (!res.ok) throw new Error("Erro ao buscar dados");
-            return res.json();
-        })
-        .then(data => {
-            document.getElementById('licencas').innerHTML = JSON.stringify(data.licencas, null, 2);
-            document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
-            document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
-            document.getElementById('notas').innerHTML = JSON.stringify
-
-
-$(document).ready(function () {
-    $('#clinicSelect').select2({
-        placeholder: "Digite para buscar uma clínica...",
-        allowClear: true
+    // Inicializa Select2 no elemento select
+    clinicSelect.select2({
+        placeholder: "-- Escolha uma clínica --",
+        allowClear: true // Permite limpar a seleção
     });
-});
 
-const clinicSelect = document.getElementById('clinicSelect');
-const buscarBtn = document.getElementById('buscarBtn');
-const loading = document.getElementById('loading');
-const dashboard = document.getElementById('dashboard');
-const valorTotal = document.getElementById('valorTotal');
-const valorLicenca = document.getElementById('valorLicenca');
+    // Função para buscar e exibir os dados
+    async function fetchData() {
+        const clinic = clinicSelect.val(); // Usa .val() do jQuery para Select2
+        
+        if (!clinic) {
+            alert('Por favor, selecione uma clínica.');
+            return;
+        }
 
-clinics.forEach(clinic => {
-    const option = document.createElement('option');
-    option.value = clinic;
-    option.textContent = clinic;
-    clinicSelect.appendChild(option);
-});
+        // Esconde o dashboard e o valor total, mostra o loading
+        dashboard.classList.add('hidden');
+        valorTotalDiv.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
 
-buscarBtn.addEventListener('click', () => {
-    const selectedClinic = clinicSelect.value;
-    if (!selectedClinic) {
-        alert("Selecione uma clínica antes de buscar.");
-        return;
-    }
-    loading.classList.remove('hidden');
-    dashboard.classList.add('hidden');
-    valorTotal.classList.add('hidden');
+        // Limpa os campos antes de carregar novos dados
+        document.getElementById('licencas').innerHTML = '';
+        document.getElementById('database').innerHTML = '';
+        document.getElementById('clinico').innerHTML = '';
+        document.getElementById('notas').innerHTML = '';
+        valorLicencaSpan.textContent = '';
 
-    fetch(`https://${selectedClinic}.igutclinicas.com.br/aplicativos/info`)
-        .then(res => {
-            if (!res.ok) throw new Error("Erro ao buscar dados");
-            return res.json();
-        })
-        .then(data => {
-            document.getElementById('licencas').innerHTML = JSON.stringify(data.licencas, null, 2);
-            document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
-            document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
-            document.getElementById('notas').innerHTML = JSON.stringify(data.notas, null, 2);
+        try {
+            const response = await fetch(`https://${clinic}.igutclinicas.com.br/aplicativos/info`);
+            if (!response.ok) {
+                throw new Error(`Erro HTTP! Status: ${response.status}`);
+            }
+            const data = await response.json();
 
-            const crm = parseInt(data.licencas.CRM) || 0;
-            let outros = 0;
-            const outrosKeys = ['COREN', 'CRFA', 'CRP', 'SEM'];
-            outrosKeys.forEach(key => {
-                outros += parseInt(data.licencas[key]) || 0;
-            });
-            const valor = crm * 100 + outros * 50;
-            valorLicenca.textContent = `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            // Usar textContent para evitar problemas de segurança e garantir formatação em <pre>
+            document.getElementById('licencas').textContent = JSON.stringify(data.licencas, null, 2);
+            // Usar \n para quebra de linha em <p>
+            document.getElementById('database').textContent = `IP: ${data.ip}\nHostname: ${data.hostname}`; 
+            document.getElementById('clinico').textContent = JSON.stringify(data.clinico, null, 2);
+            document.getElementById('notas').textContent = JSON.stringify(data.notas, null, 2);
+            
+            // Exibir valor total da licença se existir
+            if (data.licencas && typeof data.licencas.valorTotal !== 'undefined') {
+                valorLicencaSpan.textContent = `R$ ${parseFloat(data.licencas.valorTotal).toFixed(2).replace('.', ',')}`;
+                valorTotalDiv.classList.remove('hidden');
+            } else {
+                valorTotalDiv.classList.add('hidden');
+            }
 
-            loading.classList.add('hidden');
             dashboard.classList.remove('hidden');
-            valorTotal.classList.remove('hidden');
-        })
-        .catch(err => {
-            loading.classList.add('hidden');
-            alert("Erro ao buscar dados da clínica.");
-            console.error(err);
-        });
+        } catch (err) {
+            alert(`Erro ao buscar dados da clínica ${clinic}: ${err.message}. Por favor, tente novamente.`);
+            console.error('Erro ao buscar dados da clínica:', err);
+            dashboard.classList.add('hidden'); // Oculta o dashboard em caso de erro
+            valorTotalDiv.classList.add('hidden');
+        } finally {
+            loadingDiv.classList.add('hidden'); // Esconde o loading
+        }
+    }
+
+    // Evento de clique no botão "Buscar"
+    buscarBtn.addEventListener('click', fetchData);
 });
