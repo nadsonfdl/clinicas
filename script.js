@@ -84,3 +84,66 @@ buscarBtn.addEventListener('click', () => {
             document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
             document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
             document.getElementById('notas').innerHTML = JSON.stringify
+
+
+$(document).ready(function () {
+    $('#clinicSelect').select2({
+        placeholder: "Digite para buscar uma clínica...",
+        allowClear: true
+    });
+});
+
+const clinicSelect = document.getElementById('clinicSelect');
+const buscarBtn = document.getElementById('buscarBtn');
+const loading = document.getElementById('loading');
+const dashboard = document.getElementById('dashboard');
+const valorTotal = document.getElementById('valorTotal');
+const valorLicenca = document.getElementById('valorLicenca');
+
+clinics.forEach(clinic => {
+    const option = document.createElement('option');
+    option.value = clinic;
+    option.textContent = clinic;
+    clinicSelect.appendChild(option);
+});
+
+buscarBtn.addEventListener('click', () => {
+    const selectedClinic = clinicSelect.value;
+    if (!selectedClinic) {
+        alert("Selecione uma clínica antes de buscar.");
+        return;
+    }
+    loading.classList.remove('hidden');
+    dashboard.classList.add('hidden');
+    valorTotal.classList.add('hidden');
+
+    fetch(`https://${selectedClinic}.igutclinicas.com.br/aplicativos/info`)
+        .then(res => {
+            if (!res.ok) throw new Error("Erro ao buscar dados");
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById('licencas').innerHTML = JSON.stringify(data.licencas, null, 2);
+            document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
+            document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
+            document.getElementById('notas').innerHTML = JSON.stringify(data.notas, null, 2);
+
+            const crm = parseInt(data.licencas.CRM) || 0;
+            let outros = 0;
+            const outrosKeys = ['COREN', 'CRFA', 'CRP', 'SEM'];
+            outrosKeys.forEach(key => {
+                outros += parseInt(data.licencas[key]) || 0;
+            });
+            const valor = crm * 100 + outros * 50;
+            valorLicenca.textContent = `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+            loading.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            valorTotal.classList.remove('hidden');
+        })
+        .catch(err => {
+            loading.classList.add('hidden');
+            alert("Erro ao buscar dados da clínica.");
+            console.error(err);
+        });
+});
