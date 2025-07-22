@@ -3,309 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Clínicas</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Dashboard Clínicas IGUT</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-/..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --background-color: #f1f5f9;
+            --card-background: #ffffff;
+            --text-color: #1f2937;
+            --accent-color: #0ea5e9;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .select-clinic {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        #clinicSelect {
+            width: 60%;
+            max-width: 400px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        .card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+        .loading {
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+        .hidden {
+            display: none;
+        }
+        .total-valor {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1><i class="fas fa-clinic-medical"></i> Dashboard Clínicas IGUT</h1>
+    </header>
+
     <div class="container">
-        <h1 class="title-main">Dashboard de Clínicas IGUT</h1>
-        <div class="selector-container">
-            <label for="clinicSearch" class="label-search">Buscar Clínica:</label>
-            <input type="text" id="clinicSearch" class="input-search" placeholder="Digite para filtrar...">
-            
-            <label for="clinicSelect" class="label-select">Ou Selecione:</label>
-            <select id="clinicSelect" class="select-clinic">
+        <div class="select-clinic">
+            <label for="clinicSelect">Selecione uma Clínica:</label><br>
+            <select id="clinicSelect">
                 <option value="">-- Escolha uma clínica --</option>
-                <option value="acaopositiva">acaopositiva</option>
-<option value="acaopositivagama">acaopositivagama</option>
-<option value="acbiblico">acbiblico</option>
-<option value="acolhedor">acolhedor</option>
-<option value="advance">advance</option>
-<option value="agape">agape</option>
-<option value="aidaalvim">aidaalvim</option>
-<option value="aiza">aiza</option>
-<option value="akhos">akhos</option>
-<option value="allvida">allvida</option>
-<option value="alpha">alpha</option>
-<option value="amandaambrosio">amandaambrosio</option>
-<option value="ame">ame</option>
-<option value="ame">ame</option>
-<option value="amego">amego</option>
-<option value="amesaude">amesaude</option>
-<option value="andros">andros</option>
-<option value="apercepcao">apercepcao</option>
-<option value="aphrodite">aphrodite</option>
-<option value="aptorax">aptorax</option>
-<option value="arche">arche</option>
-<option value="ares">ares</option>
-<option value="asas">asas</option>
-<option value="attuare">attuare</option>
-<option value="aura">aura</option>
-<option value="ayresmed">ayresmed</option>
-<option value="barbaraneffa">barbaraneffa</option>
-<option value="bariinject">bariinject</option>
-<option value="bioaisthesis">bioaisthesis</option>
-<option value="bioregenera">bioregenera</option>
-<option value="blink">blink</option>
-<option value="bluetower">bluetower</option>
-<option value="bmh">bmh</option>
-<option value="borduni">borduni</option>
-<option value="brucesalles">brucesalles</option>
-<option value="bsbcirurgia">bsbcirurgia</option>
-<option value="bsbotorrino">bsbotorrino</option>
-<option value="cadi">cadi</option>
-<option value="cami">cami</option>
-<option value="capilmed">capilmed</option>
-<option value="cardiologia">cardiologia</option>
-<option value="ccddf">ccddf</option>
-<option value="ccw">ccw</option>
-<option value="cdai">cdai</option>
-<option value="cemefe">cemefe</option>
-<option value="centrodeaneurisma">centrodeaneurisma</option>
-<option value="centrodigestivo">centrodigestivo</option>
-<option value="clepp">clepp</option>
-<option value="clifali">clifali</option>
-<option value="climed">climed</option>
-<option value="climepo">climepo</option>
-<option value="clinen">clinen</option>
-<option value="clinicadacrianca">clinicadacrianca</option>
-<option value="clinicadotorax">clinicadotorax</option>
-<option value="clinicafluxus">clinicafluxus</option>
-<option value="clinicagrisolia">clinicagrisolia</option>
-<option value="clinicamedlago">clinicamedlago</option>
-<option value="clinicapopular">clinicapopular</option>
-<option value="clinicarehgio">clinicarehgio</option>
-<option value="clinicaseg">clinicaseg</option>
-<option value="clinicasingular">clinicasingular</option>
-<option value="clinos">clinos</option>
-<option value="cliu">cliu</option>
-<option value="coisadepele">coisadepele</option>
-<option value="conexaonucleo">conexaonucleo</option>
-<option value="conferemed">conferemed</option>
-<option value="corpore">corpore</option>
-<option value="costasouza">costasouza</option>
-<option value="csma">csma</option>
-<option value="curare">curare</option>
-<option value="darealvim">darealvim</option>
-<option value="darlaneoliver">darlaneoliver</option>
-<option value="demo">demo</option>
-<option value="dermaavancada">dermaavancada</option>
-<option value="dermacapelli">dermacapelli</option>
-<option value="dermattoconceito">dermattoconceito</option>
-<option value="dfneuro">dfneuro</option>
-<option value="dordogama">dordogama</option>
-<option value="dralexandre">dralexandre</option>
-<option value="dramonica">dramonica</option>
-<option value="dranatalia">dranatalia</option>
-<option value="drci">drci</option>
-<option value="drfabio">drfabio</option>
-<option value="drleonardo">drleonardo</option>
-<option value="drpaulo">drpaulo</option>
-<option value="elevee">elevee</option>
-<option value="eliformiga">eliformiga</option>
-<option value="ellaclinique">ellaclinique</option>
-<option value="endoeforma">endoeforma</option>
-<option value="endolight">endolight</option>
-<option value="endometriosebrasilia">endometriosebrasilia</option>
-<option value="espacophysio">espacophysio</option>
-<option value="essenciaplena">essenciaplena</option>
-<option value="estivalet">estivalet</option>
-<option value="etca">etca</option>
-<option value="eterna">eterna</option>
-<option value="faesa">faesa</option>
-<option value="fakhouri">fakhouri</option>
-<option value="falareouvir">falareouvir</option>
-<option value="fasciani">fasciani</option>
-<option value="fauve">fauve</option>
-<option value="fenestra">fenestra</option>
-<option value="ferrara">ferrara</option>
-<option value="fisioclin">fisioclin</option>
-<option value="fisiocorpore">fisiocorpore</option>
-<option value="fisioterape">fisioterape</option>
-<option value="florescer">florescer</option>
-<option value="fluir">fluir</option>
-<option value="fluxusjmv">fluxusjmv</option>
-<option value="fonoclin">fonoclin</option>
-<option value="gastrocentro">gastrocentro</option>
-<option value="gastrosul">gastrosul</option>
-<option value="gc">gc</option>
-<option value="gedab">gedab</option>
-<option value="ginemasto">ginemasto</option>
-<option value="grupoelas">grupoelas</option>
-<option value="grutorax">grutorax</option>
-<option value="guerir">guerir</option>
-<option value="gustavogouveia">gustavogouveia</option>
-<option value="gustavosela">gustavosela</option>
-<option value="hairdoc">hairdoc</option>
-<option value="hairsp">hairsp</option>
-<option value="hairuberaba">hairuberaba</option>
-<option value="hairuberlandia">hairuberlandia</option>
-<option value="hineni">hineni</option>
-<option value="homecor">homecor</option>
-<option value="humanita">humanita</option>
-<option value="ibes">ibes</option>
-<option value="ibrafisio">ibrafisio</option>
-<option value="icbari">icbari</option>
-<option value="ilitia">ilitia</option>
-<option value="imovbsb">imovbsb</option>
-<option value="info">info</option>
-<option value="inspcor">inspcor</option>
-<option value="inspirarotorrino">inspirarotorrino</option>
-<option value="inspire">inspire</option>
-<option value="inspireal">inspireal</option>
-<option value="institutocorha">institutocorha</option>
-<option value="institutodofigado">institutodofigado</option>
-<option value="institutoreluz">institutoreluz</option>
-<option value="institutosanches">institutosanches</option>
-<option value="intertorax">intertorax</option>
-<option value="interv">interv</option>
-<option value="intf">intf</option>
-<option value="inthorax">inthorax</option>
-<option value="intorax">intorax</option>
-<option value="invideo">invideo</option>
-<option value="jaevelly">jaevelly</option>
-<option value="jdrb">jdrb</option>
-<option value="jf">jf</option>
-<option value="leblanc">leblanc</option>
-<option value="lessence">lessence</option>
-<option value="leticiaoba">leticiaoba</option>
-<option value="leticiapaulino">leticiapaulino</option>
-<option value="lifevision">lifevision</option>
-<option value="liliane">liliane</option>
-<option value="links">links</option>
-<option value="live">live</option>
-<option value="llp">llp</option>
-<option value="lovit">lovit</option>
-<option value="lovitls">lovitls</option>
-<option value="majestic">majestic</option>
-<option value="mamaecegonha">mamaecegonha</option>
-<option value="mastershape">mastershape</option>
-<option value="medar">medar</option>
-<option value="medco">medco</option>
-<option value="medigastro">medigastro</option>
-<option value="medinutri">medinutri</option>
-<option value="medlago">medlago</option>
-<option value="melaredo">melaredo</option>
-<option value="meraki">meraki</option>
-<option value="miletto">miletto</option>
-<option value="montblanc">montblanc</option>
-<option value="multicei">multicei</option>
-<option value="neootorrino">neootorrino</option>
-<option value="neurodor">neurodor</option>
-<option value="neuromed">neuromed</option>
-<option value="neurosinapse">neurosinapse</option>
-<option value="nfegc">nfegc</option>
-<option value="norteortopedia">norteortopedia</option>
-<option value="nubiagoulart">nubiagoulart</option>
-<option value="nubiasantana">nubiasantana</option>
-<option value="otocap">otocap</option>
-<option value="otocare">otocare</option>
-<option value="otocatedral">otocatedral</option>
-<option value="otoclinica">otoclinica</option>
-<option value="otoclinicabrasilia">otoclinicabrasilia</option>
-<option value="otomedbh">otomedbh</option>
-<option value="otoplus">otoplus</option>
-<option value="otorrinobrasilia">otorrinobrasilia</option>
-<option value="otorrinodf">otorrinodf</option>
-<option value="otorrinoms">otorrinoms</option>
-<option value="otorrinopatos">otorrinopatos</option>
-<option value="otorrinopatosimac">otorrinopatosimac</option>
-<option value="ouvir">ouvir</option>
-<option value="oxyclin">oxyclin</option>
-<option value="pacientes">pacientes</option>
-<option value="painel">painel</option>
-<option value="pantheon">pantheon</option>
-<option value="pectus">pectus</option>
-<option value="pellevitta">pellevitta</option>
-<option value="perfectclinic">perfectclinic</option>
-<option value="perinato">perinato</option>
-<option value="philos">philos</option>
-<option value="plenitude">plenitude</option>
-<option value="pleniture">pleniture</option>
-<option value="plexus">plexus</option>
-<option value="pneumologia">pneumologia</option>
-<option value="policlinica">policlinica</option>
-<option value="primafattura">primafattura</option>
-<option value="primapelle">primapelle</option>
-<option value="proctoclinica">proctoclinica</option>
-<option value="producao">producao</option>
-<option value="psimelissa">psimelissa</option>
-<option value="pulsional">pulsional</option>
-<option value="reability">reability</option>
-<option value="rededay">rededay</option>
-<option value="reggia">reggia</option>
-<option value="renassance">renassance</option>
-<option value="renovare">renovare</option>
-<option value="resiliencia">resiliencia</option>
-<option value="respiraral">respiraral</option>
-<option value="respirardf">respirardf</option>
-<option value="revigore">revigore</option>
-<option value="revita">revita</option>
-<option value="rfpediatria">rfpediatria</option>
-<option value="ruah">ruah</option>
-<option value="sanar">sanar</option>
-<option value="sanity">sanity</option>
-<option value="santabarbara">santabarbara</option>
-<option value="saocamilo">saocamilo</option>
-<option value="sartore">sartore</option>
-<option value="selectasaude">selectasaude</option>
-<option value="selectavie">selectavie</option>
-<option value="sense">sense</option>
-<option value="serhumano">serhumano</option>
-<option value="slim">slim</option>
-<option value="solarea">solarea</option>
-<option value="soniaferri">soniaferri</option>
-<option value="soul">soul</option>
-<option value="steniomeirelles">steniomeirelles</option>
-<option value="studioschwerz">studioschwerz</option>
-<option value="sublime">sublime</option>
-<option value="thaisteles">thaisteles</option>
-<option value="thorax">thorax</option>
-<option value="tivolly">tivolly</option>
-<option value="toracicaalagoas">toracicaalagoas</option>
-<option value="toraxlinea">toraxlinea</option>
-<option value="travessia">travessia</option>
-<option value="triangeli">triangeli</option>
-<option value="unicakids">unicakids</option>
-<option value="unidadedosonobsb">unidadedosonobsb</option>
-<option value="uniprocto">uniprocto</option>
-<option value="uniq">uniq</option>
-<option value="uniq">uniq</option>
-<option value="urocentro">urocentro</option>
-<option value="urogama">urogama</option>
-<option value="urogin">urogin</option>
-<option value="urology">urology</option>
-<option value="uros">uros</option>
-<option value="vathos">vathos</option>
-<option value="ventteclinic">ventteclinic</option>
-<option value="veridium">veridium</option>
-<option value="viavitae">viavitae</option>
-<option value="voxvita">voxvita</option>
-<option value="walfisio">walfisio</option>
-<option value="wandahorta">wandahorta</option>
-<option value="woori">woori</option>
+                <!-- Lista dinâmica aqui -->
             </select>
         </div>
+
+        <div id="loading" class="loading hidden">
+            <i class="fas fa-spinner fa-spin"></i> Carregando dados...
+        </div>
+
         <div id="dashboard" class="dashboard hidden">
             <div class="card">
-                <h2><i class="fas fa-id-badge card-icon"></i> Licenças</h2>
-                <pre id="licencas" class="card-content"></pre>
+                <i class="fas fa-id-badge"></i>
+                <h3>Licenças</h3>
+                <p id="licencas"></p>
             </div>
             <div class="card">
-                <h2><i class="fas fa-database card-icon"></i> Banco de Dados</h2>
-                <p id="database" class="card-content"></p>
+                <i class="fas fa-database"></i>
+                <h3>Banco de Dados</h3>
+                <p id="database"></p>
             </div>
             <div class="card">
-                <h2><i class="fas fa-user-md card-icon"></i> Clínico</h2>
-                <pre id="clinico" class="card-content"></pre>
+                <i class="fas fa-user-md"></i>
+                <h3>Dados Clínicos</h3>
+                <p id="clinico"></p>
             </div>
             <div class="card">
-                <h2><i class="fas fa-file-alt card-icon"></i> Notas</h2>
-                <pre id="notas" class="card-content"></pre>
+                <i class="fas fa-file-invoice"></i>
+                <h3>Notas</h3>
+                <p id="notas"></p>
             </div>
         </div>
+
+        <div id="valorTotal" class="total-valor hidden">
+            💸 Valor total da licença: <span id="valorLicenca"></span>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script>
+        const clinics = [
+        "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
+        "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
+        "amesaude", "andros", "apercepcao", "aphrodite", "aptorax", "arche", "ares",
+        "asas", "attuare", "aura", "ayresmed", "barbaraneffa", "bariinject", "bioaisthesis",
+        "bioregenera", "blink", "bluetower", "bmh", "borduni", "brucesalles", "bsbcirurgia",
+        "bsbotorrino", "cadi", "cami", "capilmed", "cardiologia", "ccddf", "ccw", "cdai",
+        "cemefe", "centrodeaneurisma", "centrodigestivo", "clepp", "clifali", "climed",
+        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicafluxus",
+        "clinicagrisolia", "clinicamedlago", "clinicapopular", "clinicarehgio", "clinicaseg",
+        "clinicasingular", "clinos", "cliu", "coisadepele", "conexaonucleo", "conferemed",
+        "corpore", "costasouza", "csma", "curare", "darealvim", "darlaneoliver", "demo",
+        "dermaavancada", "dermacapelli", "dermattoconceito", "dfneuro", "dordogama",
+        "dralexandre", "dramonica", "dranatalia", "drci", "drfabio", "drleonardo", "drpaulo",
+        "elevee", "eliformiga", "ellaclinique", "endoeforma", "endolight",
+        "endometriosebrasilia", "espacophysio", "essenciaplena", "estivalet", "etca",
+        "eterna", "faesa", "fakhouri", "falareouvir", "fasciani", "fauve", "fenestra",
+        "ferrara", "fisioclin", "fisiocorpore", "fisioterape", "florescer", "fluir",
+        "fluxusjmv", "fonoclin", "gastrocentro", "gastrosul", "gc", "gedab", "ginemasto",
+        "grupoelas", "grutorax", "guerir", "gustavogouveia", "gustavosela", "hairdoc",
+        "hairsp", "hairuberaba", "hairuberlandia", "hineni", "homecor", "humanita", "ibes",
+        "ibrafisio", "icbari", "ilitia", "imovbsb", "info", "inspcor", "inspirarotorrino",
+        "inspire", "inspireal", "institutocorha", "institutodofigado", "institutoreluz",
+        "institutosanches", "intertorax", "interv", "intf", "inthorax", "intorax",
+        "invideo", "jaevelly", "jdrb", "jf", "leblanc", "lessence", "leticiaoba",
+        "leticiapaulino", "lifevision", "liliane", "links", "live", "llp", "lovit", "lovitls",
+        "majestic", "mamaecegonha", "mastershape", "medar", "medco", "medigastro",
+        "medinutri", "medlago", "melaredo", "meraki", "miletto", "montblanc", "multicei",
+        "neootorrino", "neurodor", "neuromed", "neurosinapse", "nfegc", "norteortopedia",
+        "nubiagoulart", "nubiasantana", "otocap", "otocare", "otocatedral", "otoclinica",
+        "otoclinicabrasilia", "otomedbh", "otoplus", "otorrinobrasilia", "otorrinodf",
+        "otorrinoms", "otorrinopatos", "otorrinopatosimac", "ouvir", "oxyclin", "pacientes",
+        "painel", "pantheon", "pectus", "pellevitta", "perfectclinic", "perinato", "philos",
+        "plenitude", "pleniture", "plexus", "pneumologia", "policlinica", "primafattura",
+        "primapelle", "proctoclinica", "producao", "psimelissa", "pulsional", "reability",
+        "rededay", "reggia", "renassance", "renovare", "resiliencia", "respiraral",
+        "respirardf", "revigore", "revita", "rfpediatria", "ruah", "sanar", "sanity",
+        "santabarbara", "saocamilo", "sartore", "selectasaude", "selectavie", "sense",
+        "serhumano", "slim", "solarea", "soniaferri", "soul", "steniomeirelles",
+        "studioschwerz", "sublime", "thaisteles", "thorax", "tivolly", "toracicaalagoas",
+        "toraxlinea", "travessia", "triangeli", "unicakids", "unidadedosonobsb", "uniprocto",
+        "uniq", "urocentro", "urogama", "urogin", "urology", "uros", "vathos",
+        "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
+    ];
+
+        $(document).ready(function() {
+            $('#clinicSelect').select2({
+                placeholder: "Digite para buscar uma clínica...",
+                allowClear: true
+            });
+        });
+
+        const clinicSelect = document.getElementById('clinicSelect');
+        const loading = document.getElementById('loading');
+        const dashboard = document.getElementById('dashboard');
+        const valorTotal = document.getElementById('valorTotal');
+        const valorLicenca = document.getElementById('valorLicenca');
+
+        clinics.forEach(clinic => {
+            const option = document.createElement('option');
+            option.value = clinic;
+            option.textContent = clinic;
+            clinicSelect.appendChild(option);
+        });
+
+        clinicSelect.addEventListener('change', () => {
+            const selectedClinic = clinicSelect.value;
+            if (!selectedClinic) {
+                dashboard.classList.add('hidden');
+                valorTotal.classList.add('hidden');
+                return;
+            }
+            loading.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            valorTotal.classList.add('hidden');
+
+            fetch(`https://${selectedClinic}.igutclinicas.com.br/aplicativos/info`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('licencas').innerHTML = JSON.stringify(data.licencas, null, 2);
+                    document.getElementById('database').innerHTML = `IP: ${data.ip}<br>Hostname: ${data.hostname}`;
+                    document.getElementById('clinico').innerHTML = JSON.stringify(data.clinico, null, 2);
+                    document.getElementById('notas').innerHTML = JSON.stringify(data.notas, null, 2);
+
+                    // Calcula valor total
+                    const crm = parseInt(data.licencas.CRM) || 0;
+                    let outros = 0;
+                    const outrosKeys = ['COREN', 'CRFA', 'CRP', 'SEM'];
+                    outrosKeys.forEach(key => {
+                        outros += parseInt(data.licencas[key]) || 0;
+                    });
+                    const valor = crm * 100 + outros * 50;
+                    valorLicenca.textContent = `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+                    loading.classList.add('hidden');
+                    dashboard.classList.remove('hidden');
+                    valorTotal.classList.remove('hidden');
+                })
+                .catch(err => {
+                    loading.classList.add('hidden');
+                    alert("Erro ao buscar dados da clínica.");
+                    console.error(err);
+                });
+        });
+    </script>
 </body>
 </html>
