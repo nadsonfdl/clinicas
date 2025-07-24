@@ -1,15 +1,15 @@
 :root {
-    --primary-blue: #2196F3; /* Azul primário */
-    --light-blue: #E3F2FD; /* Azul muito claro para fundo */
-    --dark-blue: #1976D2;  /* Azul escuro para títulos/ícones */
-    --accent-blue: #42A5F5; /* Azul para destaque, botões */
-    --text-color: #333;
-    --card-bg: #FFFFFF;
-    --shadow-color: rgba(0,0,0,0.1);
+    --primary-blue: #2196F3; /* Azul primário para botões e destaque */
+    --light-blue: #E3F2FD; /* Azul muito claro para o fundo da página */
+    --dark-blue: #1976D2;  /* Azul escuro para títulos, ícones e texto forte */
+    --accent-blue: #42A5F5; /* Azul para hover e estados ativos */
+    --text-color: #333; /* Cor padrão para o texto */
+    --card-bg: #FFFFFF; /* Fundo dos cards */
+    --shadow-color: rgba(0,0,0,0.1); /* Cor padrão para sombras */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte moderna e legível */
     background: var(--light-blue); /* Fundo azul claro */
     color: var(--text-color);
     margin: 0;
@@ -34,12 +34,12 @@ header {
     margin-bottom: 15px; /* Espaço entre o logo e o título */
 }
 
-/* Alterado de .igut-logo para .gc-logo */
+/* Estilo para a nova classe da logo GC */
 .gc-logo {
-    max-width: 180px; /* Ajuste o tamanho máximo do logotipo conforme necessário */
+    max-width: 180px; /* Tamanho máximo do logotipo */
     height: auto;
-    display: block; /* Remove espaço extra abaixo da imagem */
-    border-radius: 8px; /* Adiciona um pequeno arredondamento */
+    display: block; /* Garante que não há espaços indesejados abaixo da imagem */
+    border-radius: 8px; /* Pequeno arredondamento nas bordas */
 }
 
 header h1 {
@@ -48,18 +48,18 @@ header h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 10px; /* Espaçamento entre o ícone e o texto do título */
 }
 
 header h1 .fas {
-    font-size: 2rem;
+    font-size: 2rem; /* Tamanho do ícone no cabeçalho */
 }
 
 .container {
     width: 90%;
     max-width: 1000px;
     margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.95); /* Fundo levemente transparente */
+    background-color: rgba(255, 255, 255, 0.95); /* Fundo branco com leve transparência */
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 20px var(--shadow-color);
@@ -69,10 +69,10 @@ header h1 .fas {
     text-align: center;
     margin-bottom: 2rem;
     padding: 15px;
-    background-color: #f0f8ff; /* Azul muito claro para o seletor */
+    background-color: #f0f8ff; /* Fundo suave para o seletor */
     border-radius: 8px;
     border: 1px solid var(--primary-blue);
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interna para profundidade */
 }
 
 .select-clinic label {
@@ -83,7 +83,7 @@ header h1 .fas {
     display: block;
 }
 
-/* Estilo para Select2 */
+/* Estilos para a integração com Select2 */
 .select2-container {
     display: block; /* Ocupa a largura total disponível */
     margin: 15px auto;
@@ -92,7 +92,7 @@ header h1 .fas {
 
 .select2-container .select2-selection--single {
     height: 40px; /* Altura do campo */
-    border: 2px solid var(--primary-blue) !important;
+    border: 2px solid var(--primary-blue) !important; /* Borda com cor primária */
     border-radius: 5px;
     font-size: 1rem;
     line-height: 36px; /* Para alinhar texto verticalmente */
@@ -124,7 +124,7 @@ header h1 .fas {
 }
 
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: var(--accent-blue) !important;
+    background-color: var(--accent-blue) !important; /* Cor de destaque para opções selecionadas */
     color: white;
 }
 
@@ -167,8 +167,9 @@ header h1 .fas {
 
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min-width um pouco maior */
-    gap: 1.8rem; /* Aumento do espaçamento entre os cards */
+    /* Colunas responsivas: 1 coluna em telas pequenas, 2 ou 3 em telas maiores */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.8rem; /* Espaçamento entre os cards */
     margin-top: 2rem;
 }
 
@@ -176,7 +177,7 @@ header h1 .fas {
     background: var(--card-bg);
     border-radius: 10px;
     box-shadow: 0 4px 15px var(--shadow-color);
-    padding: 1.8rem; /* Mais padding */
+    padding: 1.8rem; /* Mais padding interno para os cards */
     text-align: center;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     display: flex;
@@ -185,11 +186,11 @@ header h1 .fas {
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-.card h3 { /* Alterado de h2 para h3 conforme o HTML */
+.card h3 {
     color: var(--dark-blue);
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
@@ -210,23 +211,23 @@ header h1 .fas {
 .card-content {
     font-size: 0.95rem;
     color: #555;
-    text-align: left;
+    text-align: left; /* Alinha o texto à esquerda para melhor leitura */
     width: 100%;
-    overflow-x: auto; /* Adiciona scroll se o conteúdo for muito largo */
-    background-color: #f9f9f9;
+    overflow-x: auto; /* Adiciona scroll horizontal se o conteúdo for muito largo */
+    background-color: #f9f9f9; /* Fundo suave para o conteúdo */
     padding: 12px;
     border-radius: 5px;
-    border: 1px solid #eee;
+    border: 1px solid #eee; /* Borda sutil */
     min-height: 80px; /* Altura mínima para os conteúdos */
 }
 
-.card-content > div { /* Estilo para os divs internos gerados pelo JS */
+.card-content > div { /* Estilo para os divs internos gerados pelo JS (cada linha de dado) */
     margin-bottom: 5px;
-    word-break: break-word;
+    word-break: break-word; /* Garante que textos longos quebrem a linha */
     line-height: 1.4;
 }
 
-.card-content h4 { /* Estilo para os novos títulos h4 dentro dos cards */
+.card-content h4 { /* Estilo para os novos títulos h4 dentro dos cards (ex: "Contrato:") */
     margin-top: 15px;
     margin-bottom: 8px;
     color: var(--dark-blue);
@@ -259,10 +260,10 @@ header h1 .fas {
 }
 
 .hidden {
-    display: none;
+    display: none; /* Classe para esconder elementos */
 }
 
-/* Responsividade */
+/* Responsividade para telas menores */
 @media (max-width: 768px) {
     header h1 {
         font-size: 1.8rem;
@@ -284,7 +285,7 @@ header h1 .fas {
         padding: 8px 20px;
     }
     .dashboard {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
         gap: 1rem;
     }
     .card {
@@ -303,8 +304,8 @@ header h1 .fas {
         font-size: 1.1rem;
         padding: 1rem;
     }
-    /* Ajuste para a nova classe da logo */
+    /* Ajuste para a nova classe da logo em telas menores */
     .gc-logo {
-        max-width: 150px; /* Ajuste para telas menores */
+        max-width: 150px;
     }
 }
