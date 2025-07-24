@@ -32,20 +32,30 @@
 
         <div id="dashboard" class="dashboard hidden">
             <div class="card">
-                <i class="fas fa-id-badge"></i>
-                <h3>Licenças e Contrato</h3>
+                <h3><i class="fas fa-id-badge"></i> Licenças e Contrato</h3>
                 <div id="licencas" class="card-content"></div>
             </div>
             <div class="card">
-                <i class="fas fa-database"></i>
-                <h3>Servidor</h3>
+                <h3><i class="fas fa-database"></i> Servidor</h3>
                 <div id="database" class="card-content"></div>
             </div>
             <div class="card">
-                <i class="fas fa-user-md"></i>
-                <h3>Dados Clínicos</h3>
+                <h3><i class="fas fa-user-md"></i> Dados Clínicos</h3>
                 <div id="clinico" class="card-content"></div>
             </div>
             <div class="card">
-                <i class="fas fa-file-invoice"></i>
-                <h3>Notas Emitidas</h3>
+                <h3><i class="fas fa-file-invoice"></i> Notas Emitidas</h3>
+                <div id="notas" class="card-content"></div>
+            </div>
+        </div>
+
+        <div id="valorTotal" class="total-valor hidden">
+            💸 Valor Estimado das Licenças Ativas: <span id="valorLicenca"></span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
