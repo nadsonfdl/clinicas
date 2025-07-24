@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const clinicSelect = $('#clinicSelect'); // Usando jQuery para Select2
+    const clinicSelect = $('#clinicSelect'); 
     const buscarBtn = document.getElementById('buscarBtn');
     const dashboard = document.getElementById('dashboard');
     const loadingDiv = document.getElementById('loading');
     const valorTotalDiv = document.getElementById('valorTotal');
     const valorLicencaSpan = document.getElementById('valorLicenca');
 
-    // LISTA COMPLETA DE CLÍNICAS - MANTIDA AQUI PARA POPULAR O SELETOR
+    const licencasDiv = document.getElementById('licencas'); // Obter a div das licenças
+    const whatsappCrmBtn = document.getElementById('whatsappCrmBtn');
+    const whatsappOutrasBtn = document.getElementById('whatsappOutrasBtn');
+
     const clinics = [
         "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
         "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
@@ -15,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "bioregenera", "blink", "bluetower", "bmh", "borduni", "brucesalles", "bsbcirurgia",
         "bsbotorrino", "cadi", "cami", "capilmed", "cardiologia", "ccddf", "ccw", "cdai",
         "cemefe", "centrodeaneurisma", "centrodigestivo", "clepp", "clifali", "climed",
-        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicafluxus",
+        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicadafluxus",
         "clinicagrisolia", "clinicamedlago", "clinicapopular", "clinicarehgio", "clinicaseg",
         "clinicasingular", "clinos", "cliu", "coisadepele", "conexaonucleo", "conferemed",
         "corpore", "costasouza", "csma", "curare", "darealvim", "darlaneoliver", "demo",
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clinicSelect.append(option);
     });
 
-    // Inicializa Select2 no elemento select
+    // Inicializa Select2 no elemento select para um visual moderno
     clinicSelect.select2({
         placeholder: "-- Escolha uma clínica --",
         allowClear: true // Permite limpar a seleção
@@ -79,7 +82,24 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingDiv.classList.remove('hidden');
 
         // Limpa os campos antes de carregar novos dados
-        document.getElementById('licencas').innerHTML = '';
+        // Limpar apenas o conteúdo dinâmico, não os botões de whatsapp
+        // Preservar a estrutura dos botões de WhatsApp
+        const originalWhatsappButtonsHtml = `
+            <div class="whatsapp-buttons">
+                <a id="whatsappCrmBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i> Solicitar Licença CRM
+                </a>
+                <a id="whatsappOutrasBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i> Solicitar Outras Licenças
+                </a>
+            </div>
+        `;
+        licencasDiv.innerHTML = originalWhatsappButtonsHtml; // Reseta a div com os botões
+        // Re-obter referências aos botões, pois o innerHTML os recria
+        const newWhatsappCrmBtn = document.getElementById('whatsappCrmBtn');
+        const newWhatsappOutrasBtn = document.getElementById('whatsappOutrasBtn');
+
+
         document.getElementById('database').innerHTML = '';
         document.getElementById('clinico').innerHTML = '';
         document.getElementById('notas').innerHTML = '';
@@ -129,9 +149,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tbody>
                 </table>
             `;
-            document.getElementById('licencas').innerHTML = licencasAndContractHtml;
+            
+            // Inserir o HTML gerado no início da div licencas
+            licencasDiv.insertAdjacentHTML('afterbegin', licencasAndContractHtml);
 
-            // DADOS DO SERVIDOR (Card Servidor) - Agora sem os Dados do Contrato
+
+            // Gerar links do WhatsApp
+            const phoneNumber = '556184018877'; // Sr. Jair
+
+            const baseMessage = `Olá, Sr. Jair!%0A%0AGostaria de solicitar informações financeiras sobre a clínica *${clinic.toUpperCase()}*.%0A%0APreciso de uma solicitação de licença *[TIPO_LICENCA]*:`;
+            const templateDetails = `%0A%0A*Dados para preencher:*%0AQuantidade: [Editar]%0ANome do Médico: [Editar]%0AEspecialidade: [Editar]%0ACPF: [Editar]%0A%0AAtenciosamente,`;
+
+            const crmMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'CRM') + templateDetails);
+            const outrasMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'Outras Especialidades') + templateDetails);
+
+            newWhatsappCrmBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${crmMessage}`;
+            newWhatsappOutrasBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${outrasMessage}`;
+
+
+            // DADOS DO SERVIDOR (Card Servidor)
             let databaseHtml = `
                 <h4>Informações do Sistema:</h4>
                 <table class="data-table">
