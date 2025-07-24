@@ -96,19 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- Formatação dos Dados para Visualização ---
 
-            // LICENÇAS ATIVAS (Card Licenças)
+            // LICENÇAS ATIVAS (Card Licenças Ativas)
             let licencasHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
             let valorTotalLicencasAtivas = 0;
 
             if (data.licencas) {
                 for (const key in data.licencas) {
-                    const quantidade = parseInt(data.licencas[key]) || 0; // Garante que é um número
+                    // Converte a quantidade para número, usando 0 se não for um número válido
+                    const quantidade = parseInt(data.licencas[key]) || 0; 
                     licencasHtml += `<div><strong>${key}:</strong> ${quantidade}</div>`;
 
                     // Cálculo do valor monetário das licenças ativas
                     if (key === 'CRM') {
                         valorTotalLicencasAtivas += quantidade * 100; // R$100,00 por CRM
-                    } else if (quantidade > 0) { // Demais tipos com R$50,00
+                    } else if (quantidade > 0) { // Demais tipos com R$50,00, se a quantidade for maior que zero
                         valorTotalLicencasAtivas += quantidade * 50;
                     }
                 }
@@ -117,12 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             document.getElementById('licencas').innerHTML = licencasHtml;
 
-            // DADOS DO SERVIDOR E CONTRATO (Card Banco de Dados)
+            // DADOS DO SERVIDOR E CONTRATO (Card Servidor e Contrato)
             let databaseHtml = `
-                <h4>Informações do Servidor:</h4>
+                <h4>Informações do Sistema:</h4>
                 <div><strong>Clínica:</strong> ${data.clinica || 'N/A'}</div>
                 <div><strong>Versão do Sistema:</strong> ${data.versao || 'N/A'}</div>
-                <div><strong>IP:</strong> ${data.ip || 'N/A'}</div>
+                <div><strong>IP do Servidor:</strong> ${data.ip || 'N/A'}</div>
                 <div><strong>Hostname:</strong> ${data.hostname || 'N/A'}</div>
                 <br>
                 <h4>Dados do Contrato:</h4>
@@ -146,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             document.getElementById('clinico').innerHTML = clinicoHtml;
 
-            // NOTAS EMITIDAS (Card Notas)
+            // NOTAS EMITIDAS (Card Notas Emitidas)
             let notasHtml = `
                 <h4>Quantidade de Notas Emitidas:</h4>
                 <div><strong>Mês 1 (Atual):</strong> ${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</div>
@@ -156,18 +157,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('notas').innerHTML = notasHtml;
             
             // VALOR TOTAL DA LICENÇA ATIVA (Seção abaixo dos cards)
-            // Agora calculado com base nas licenças ativas e seus valores
-            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`;
-            valorTotalDiv.classList.remove('hidden');
+            // Exibe o valor calculado com base nas licenças ativas e seus custos
+            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`; // Formata para 2 casas decimais e usa vírgula
+            valorTotalDiv.classList.remove('hidden'); // Mostra a seção do valor total
 
-            dashboard.classList.remove('hidden');
+            dashboard.classList.remove('hidden'); // Mostra o dashboard completo
         } catch (err) {
+            // Mensagem de erro mais detalhada para o usuário
             alert(`Erro ao buscar dados da clínica ${clinic}. Detalhes: ${err.message}. Por favor, verifique o console do navegador para mais informações (F12 > Console).`);
-            console.error('Erro ao buscar dados da clínica:', err);
+            console.error('Erro ao buscar dados da clínica:', err); // Loga o erro completo no console
             dashboard.classList.add('hidden'); // Oculta o dashboard em caso de erro
-            valorTotalDiv.classList.add('hidden');
+            valorTotalDiv.classList.add('hidden'); // Oculta a seção do valor total em caso de erro
         } finally {
-            loadingDiv.classList.add('hidden'); // Esconde o loading
+            loadingDiv.classList.add('hidden'); // Esconde o indicador de carregamento
         }
     }
 
