@@ -1,3 +1,8 @@
+/* Reset básico para incluir box-sizing para um layout mais previsível */
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --primary-blue: #2196F3; /* Azul primário */
     --light-blue: #E3F2FD; /* Azul muito claro para fundo */
@@ -231,6 +236,7 @@ header h1 .fas {
     background-color: var(--dark-footer-bg); /* Fundo preto */
     color: var(--footer-text-color); /* Texto branco */
     box-shadow: 0 4px 20px rgba(0,0,0,0.5); /* Sombra mais intensa */
+    grid-column: 1 / -1; /* FAZ O CARD DO RODAPÉ OCUPAR TODAS AS COLUNAS DA GRADE */
 }
 
 .card.large-card h3 {
