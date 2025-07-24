@@ -1,311 +1,45 @@
-:root {
-    --primary-blue: #2196F3; /* Azul primário para botões e destaque */
-    --light-blue: #E3F2FD; /* Azul muito claro para o fundo da página */
-    --dark-blue: #1976D2;  /* Azul escuro para títulos, ícones e texto forte */
-    --accent-blue: #42A5F5; /* Azul para hover e estados ativos */
-    --text-color: #333; /* Cor padrão para o texto */
-    --card-bg: #FFFFFF; /* Fundo dos cards */
-    --shadow-color: rgba(0,0,0,0.1); /* Cor padrão para sombras */
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte moderna e legível */
-    background: var(--light-blue); /* Fundo azul claro */
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
-header {
-    background-color: var(--dark-blue);
-    color: white;
-    padding: 1.5rem 0;
-    text-align: center;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    margin-bottom: 2rem;
-    display: flex; /* Adicionado para alinhar logotipo e título */
-    flex-direction: column; /* Coloca os itens em coluna */
-    align-items: center; /* Centraliza horizontalmente */
-    justify-content: center;
-}
-
-.logo-container {
-    margin-bottom: 15px; /* Espaço entre o logo e o título */
-}
-
-/* Estilo para a nova classe da logo GC */
-.gc-logo {
-    max-width: 180px; /* Tamanho máximo do logotipo */
-    height: auto;
-    display: block; /* Garante que não há espaços indesejados abaixo da imagem */
-    border-radius: 8px; /* Pequeno arredondamento nas bordas */
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; /* Espaçamento entre o ícone e o texto do título */
-}
-
-header h1 .fas {
-    font-size: 2rem; /* Tamanho do ícone no cabeçalho */
-}
-
-.container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.95); /* Fundo branco com leve transparência */
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px var(--shadow-color);
-}
-
-.select-clinic {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 15px;
-    background-color: #f0f8ff; /* Fundo suave para o seletor */
-    border-radius: 8px;
-    border: 1px solid var(--primary-blue);
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interna para profundidade */
-}
-
-.select-clinic label {
-    font-size: 1.1rem;
-    color: var(--dark-blue);
-    font-weight: bold;
+/* Estilos para as tabelas dentro dos cards */
+.card-content .data-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaços entre as bordas das células */
+    margin-top: 10px;
     margin-bottom: 10px;
-    display: block;
+    background-color: #fff; /* Fundo branco para a tabela */
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Estilos para a integração com Select2 */
-.select2-container {
-    display: block; /* Ocupa a largura total disponível */
-    margin: 15px auto;
-    max-width: 400px; /* Limita a largura do Select2 */
+.card-content .data-table th,
+.card-content .data-table td {
+    padding: 10px 12px;
+    border: 1px solid #eee; /* Bordas mais claras para as células */
+    text-align: left;
+    font-size: 0.9em; /* Levemente menor que o texto padrão do card */
 }
 
-.select2-container .select2-selection--single {
-    height: 40px; /* Altura do campo */
-    border: 2px solid var(--primary-blue) !important; /* Borda com cor primária */
-    border-radius: 5px;
-    font-size: 1rem;
-    line-height: 36px; /* Para alinhar texto verticalmente */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.select2-container .select2-selection--single .select2-selection__rendered {
-    color: var(--text-color);
-    line-height: 36px;
-    padding-left: 15px; /* Espaçamento interno */
-}
-
-.select2-container .select2-selection--single .select2-selection__arrow {
-    height: 38px;
-    width: 30px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__clear {
-    margin-right: 10px;
-    font-size: 1.2rem;
-    color: var(--dark-blue);
-}
-
-/* Estilo do dropdown do Select2 */
-.select2-dropdown {
-    border: 2px solid var(--primary-blue) !important;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: var(--accent-blue) !important; /* Cor de destaque para opções selecionadas */
+.card-content .data-table th {
+    background-color: var(--primary-blue); /* Fundo azul para o cabeçalho da tabela */
     color: white;
-}
-
-.select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid var(--primary-blue);
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 0.95rem;
-}
-
-#buscarBtn {
-    background-color: var(--primary-blue);
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 15px; /* Espaçamento acima do botão */
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
-
-#buscarBtn:hover {
-    background-color: var(--dark-blue);
-    transform: translateY(-2px);
-}
-
-.loading {
-    text-align: center;
-    font-size: 1.2rem;
-    color: var(--dark-blue);
-    margin: 2rem 0;
-}
-
-.loading .fas {
-    margin-right: 10px;
-    color: var(--accent-blue);
-}
-
-.dashboard {
-    display: grid;
-    /* Colunas responsivas: 1 coluna em telas pequenas, 2 ou 3 em telas maiores */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.8rem; /* Espaçamento entre os cards */
-    margin-top: 2rem;
-}
-
-.card {
-    background: var(--card-bg);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px var(--shadow-color);
-    padding: 1.8rem; /* Mais padding interno para os cards */
-    text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-
-.card h3 {
-    color: var(--dark-blue);
-    font-size: 1.5rem;
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.card .fas { /* Estilizando os ícones dentro dos cards */
-    color: var(--primary-blue);
-    margin-right: 0.8rem;
-    font-size: 2.2rem; /* Ícones maiores */
-    margin-bottom: 10px; /* Espaço abaixo do ícone */
-}
-
-/* Ajustes para o conteúdo interno dos cards */
-.card-content {
-    font-size: 0.95rem;
-    color: #555;
-    text-align: left; /* Alinha o texto à esquerda para melhor leitura */
-    width: 100%;
-    overflow-x: auto; /* Adiciona scroll horizontal se o conteúdo for muito largo */
-    background-color: #f9f9f9; /* Fundo suave para o conteúdo */
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid #eee; /* Borda sutil */
-    min-height: 80px; /* Altura mínima para os conteúdos */
-}
-
-.card-content > div { /* Estilo para os divs internos gerados pelo JS (cada linha de dado) */
-    margin-bottom: 5px;
-    word-break: break-word; /* Garante que textos longos quebrem a linha */
-    line-height: 1.4;
-}
-
-.card-content h4 { /* Estilo para os novos títulos h4 dentro dos cards (ex: "Contrato:") */
-    margin-top: 15px;
-    margin-bottom: 8px;
-    color: var(--dark-blue);
-    font-size: 1.1rem;
-    border-bottom: 1px solid #ddd; /* Linha sutil para separar seções */
-    padding-bottom: 5px;
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    padding: 12px 12px;
 }
 
+.card-content .data-table tr:nth-child(even) { /* Linhas zebradas para melhor legibilidade */
+    background-color: #f6f6f6;
+}
 
-.total-valor {
-    text-align: center;
-    margin-top: 2.5rem;
-    padding: 1.2rem;
-    background-color: #BBDEFB; /* Um tom de azul mais evidente para o total */
+.card-content .data-table tr:hover {
+    background-color: #eef; /* Efeito hover nas linhas */
+}
+
+/* Ajustes para textos fortes dentro das tabelas */
+.card-content .data-table td strong {
     color: var(--dark-blue);
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
-.total-valor .fas {
-    font-size: 1.5rem;
-    color: var(--primary-blue);
-}
-
-.hidden {
-    display: none; /* Classe para esconder elementos */
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
-    header h1 .fas {
-        font-size: 1.6rem;
-    }
-    .container {
-        padding: 15px;
-    }
-    .select-clinic {
-        padding: 10px;
-    }
-    .select-clinic label {
-        font-size: 1rem;
-    }
-    #buscarBtn {
-        font-size: 1rem;
-        padding: 8px 20px;
-    }
-    .dashboard {
-        grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
-        gap: 1rem;
-    }
-    .card {
-        padding: 1.2rem;
-    }
-    .card h3 {
-        font-size: 1.3rem;
-    }
-    .card .fas {
-        font-size: 1.8rem;
-    }
-    .card-content {
-        font-size: 0.9rem;
-    }
-    .total-valor {
-        font-size: 1.1rem;
-        padding: 1rem;
-    }
-    /* Ajuste para a nova classe da logo em telas menores */
-    .gc-logo {
-        max-width: 150px;
-    }
+/* Garante que o h4 dentro do card-content não tenha margin-bottom muito grande */
+.card-content h4 {
+    margin-bottom: 8px; /* Ajuste para espaçamento após o h4 */
 }
