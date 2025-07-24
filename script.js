@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const valorTotalDiv = document.getElementById('valorTotal');
     const valorLicencaSpan = document.getElementById('valorLicenca');
 
-    const licencasDiv = document.getElementById('licencas'); // Obter a div das licenças
+    const licencasDataContainer = document.getElementById('licencas-data-container'); // Novo contêiner para dados
+    const whatsappButtonsContainer = document.querySelector('.whatsapp-buttons'); // Contêiner dos botões de WhatsApp
     const whatsappCrmBtn = document.getElementById('whatsappCrmBtn');
     const whatsappOutrasBtn = document.getElementById('whatsappOutrasBtn');
 
@@ -76,30 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Esconde o dashboard e o valor total, mostra o loading
+        // Esconde o dashboard, o valor total e os botões de WhatsApp, mostra o loading
         dashboard.classList.add('hidden');
         valorTotalDiv.classList.add('hidden');
+        whatsappButtonsContainer.classList.add('hidden'); // Oculta os botões do WhatsApp
         loadingDiv.classList.remove('hidden');
 
-        // Limpa os campos antes de carregar novos dados
-        // Limpar apenas o conteúdo dinâmico, não os botões de whatsapp
-        // Preservar a estrutura dos botões de WhatsApp
-        const originalWhatsappButtonsHtml = `
-            <div class="whatsapp-buttons">
-                <a id="whatsappCrmBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-whatsapp"></i> Solicitar Licença CRM
-                </a>
-                <a id="whatsappOutrasBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-whatsapp"></i> Solicitar Outras Licenças
-                </a>
-            </div>
-        `;
-        licencasDiv.innerHTML = originalWhatsappButtonsHtml; // Reseta a div com os botões
-        // Re-obter referências aos botões, pois o innerHTML os recria
-        const newWhatsappCrmBtn = document.getElementById('whatsappCrmBtn');
-        const newWhatsappOutrasBtn = document.getElementById('whatsappOutrasBtn');
-
-
+        // Limpa apenas o contêiner de dados dinâmicos da licença
+        licencasDataContainer.innerHTML = ''; 
         document.getElementById('database').innerHTML = '';
         document.getElementById('clinico').innerHTML = '';
         document.getElementById('notas').innerHTML = '';
@@ -150,9 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </table>
             `;
             
-            // Inserir o HTML gerado no início da div licencas
-            licencasDiv.insertAdjacentHTML('afterbegin', licencasAndContractHtml);
-
+            // Inserir o HTML gerado no contêiner de dados da licença
+            licencasDataContainer.innerHTML = licencasAndContractHtml;
 
             // Gerar links do WhatsApp
             const phoneNumber = '556184018877'; // Sr. Jair
@@ -163,8 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const crmMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'CRM') + templateDetails);
             const outrasMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'Outras Especialidades') + templateDetails);
 
-            newWhatsappCrmBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${crmMessage}`;
-            newWhatsappOutrasBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${outrasMessage}`;
+            whatsappCrmBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${crmMessage}`;
+            whatsappOutrasBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${outrasMessage}`;
+            
+            whatsappButtonsContainer.classList.remove('hidden'); // Exibe os botões do WhatsApp
 
 
             // DADOS DO SERVIDOR (Card Servidor)
@@ -228,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Erro ao buscar dados da clínica:', err);
             dashboard.classList.add('hidden');
             valorTotalDiv.classList.add('hidden');
+            whatsappButtonsContainer.classList.add('hidden'); // Garante que os botões fiquem ocultos em caso de erro
         } finally {
             loadingDiv.classList.add('hidden');
         }
