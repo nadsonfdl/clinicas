@@ -88,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`https://${clinic}.igutclinicas.com.br/aplicativos/info`);
             if (!response.ok) {
-                // Se a resposta não for OK, mas o erro for de CORS, o status será 0 ou a requisição falhará antes.
-                // Aqui estamos tratando erros HTTP como 404, 500, etc.
                 throw new Error(`Erro HTTP! Status: ${response.status} - ${response.statusText}`);
             }
             const data = await response.json();
@@ -101,18 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
             let valorTotalLicencasAtivas = 0;
 
             if (data.licencas) {
+                licencasHtml += '<table class="data-table"><thead><tr><th>Tipo de Licença</th><th>Quantidade Ativa</th></tr></thead><tbody>';
                 for (const key in data.licencas) {
-                    // Converte a quantidade para número, usando 0 se não for um número válido
                     const quantidade = parseInt(data.licencas[key]) || 0; 
-                    licencasHtml += `<div><strong>${key}:</strong> ${quantidade}</div>`;
+                    licencasHtml += `<tr><td><strong>${key}:</strong></td><td>${quantidade}</td></tr>`;
 
-                    // Cálculo do valor monetário das licenças ativas
                     if (key === 'CRM') {
-                        valorTotalLicencasAtivas += quantidade * 100; // R$100,00 por CRM
-                    } else if (quantidade > 0) { // Demais tipos com R$50,00, se a quantidade for maior que zero
+                        valorTotalLicencasAtivas += quantidade * 100;
+                    } else if (quantidade > 0) {
                         valorTotalLicencasAtivas += quantidade * 50;
                     }
                 }
+                licencasHtml += '</tbody></table>';
             } else {
                 licencasHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
             }
@@ -121,58 +119,79 @@ document.addEventListener('DOMContentLoaded', () => {
             // DADOS DO SERVIDOR E CONTRATO (Card Servidor e Contrato)
             let databaseHtml = `
                 <h4>Informações do Sistema:</h4>
-                <div><strong>Clínica:</strong> ${data.clinica || 'N/A'}</div>
-                <div><strong>Versão do Sistema:</strong> ${data.versao || 'N/A'}</div>
-                <div><strong>IP do Servidor:</strong> ${data.ip || 'N/A'}</div>
-                <div><strong>Hostname:</strong> ${data.hostname || 'N/A'}</div>
+                <table class="data-table">
+                    <tbody>
+                        <tr><td><strong>Clínica:</strong></td><td>${data.clinica || 'N/A'}</td></tr>
+                        <tr><td><strong>Versão do Sistema:</strong></td><td>${data.versao || 'N/A'}</td></tr>
+                        <tr><td><strong>IP do Servidor:</strong></td><td>${data.ip || 'N/A'}</td></tr>
+                        <tr><td><strong>Hostname:</strong></td><td>${data.hostname || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
                 <br>
                 <h4>Dados do Contrato:</h4>
-                <div><strong>Qtd. CRM Contratada:</strong> ${data.contrato.qtd_licenca || 'N/A'}</div>
-                <div><strong>Qtd. Outras Especialidades Contratadas:</strong> ${data.contrato.qtd_licenca2 || 'N/A'}</div>
-                <div><strong>Qtd. Senhas Contratadas:</strong> ${data.contrato.qtd_senha || 'N/A'}</div>
-                <div><strong>Qtd. NFe Contratadas:</strong> ${data.contrato.qtd_nfe || 'N/A'}</div>
+                <table class="data-table">
+                    <thead><tr><th>Item do Contrato</th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Qtd. CRM Contratada:</strong></td><td>${data.contrato.qtd_licenca || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. Outras Especialidades Contratadas:</strong></td><td>${data.contrato.qtd_licenca2 || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. Senhas Contratadas:</strong></td><td>${data.contrato.qtd_senha || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. NFe Contratadas:</strong></td><td>${data.contrato.qtd_nfe || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
             `;
             document.getElementById('database').innerHTML = databaseHtml;
 
             // DADOS CLÍNICOS E RECEITAS (Card Dados Clínicos)
             let clinicoHtml = `
                 <h4>Quantidades de Registros:</h4>
-                <div><strong>Pré-Operatórios:</strong> ${data.clinico.preops || 'N/A'}</div>
-                <div><strong>Pós-Operatórios:</strong> ${data.clinico.posops || 'N/A'}</div>
-                <div><strong>Pacientes:</strong> ${data.clinico.pacientes || 'N/A'}</div>
-                <div><strong>Consultas:</strong> ${data.clinico.consultas || 'N/A'}</div>
+                <table class="data-table">
+                    <thead><tr><th>Métrica</th><th>Valor</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Pré-Operatórios:</strong></td><td>${data.clinico.preops || 'N/A'}</td></tr>
+                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.clinico.posops || 'N/A'}</td></tr>
+                        <tr><td><td><strong>Pacientes:</strong></td><td>${data.clinico.pacientes || 'N/A'}</td></tr>
+                        <tr><td><strong>Consultas:</strong></td><td>${data.clinico.consultas || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
                 <br>
                 <h4>Receitas:</h4>
-                <div><strong>Pós-Operatórios:</strong> ${data.receitas.posop || 'N/A'}</div>
+                <table class="data-table">
+                    <thead><tr><th>Tipo</th><th>Valor</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.receitas.posop || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
             `;
             document.getElementById('clinico').innerHTML = clinicoHtml;
 
             // NOTAS EMITIDAS (Card Notas Emitidas)
             let notasHtml = `
                 <h4>Quantidade de Notas Emitidas:</h4>
-                <div><strong>Mês 1 (Atual):</strong> ${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</div>
-                <div><strong>Mês 2 (Anterior):</strong> ${data.notas.mes2 !== null ? data.notas.mes2 : 'N/A'}</div>
-                <div><strong>Mês 3 (Há 2 meses):</strong> ${data.notas.mes3 !== null ? data.notas.mes3 : 'N/A'}</div>
+                <table class="data-table">
+                    <thead><tr><th>Mês</th><th>Notas Emitidas</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Mês 1 (Atual):</strong></td><td>${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</td></tr>
+                        <tr><td><strong>Mês 2 (Anterior):</strong></td><td>${data.notas.mes2 !== null ? data.notas.mes2 : 'N/A'}</td></tr>
+                        <tr><td><strong>Mês 3 (Há 2 meses):</strong></td><td>${data.notas.mes3 !== null ? data.notas.mes3 : 'N/A'}</td></tr>
+                    </tbody>
+                </table>
             `;
             document.getElementById('notas').innerHTML = notasHtml;
             
-            // VALOR TOTAL DA LICENÇA ATIVA (Seção abaixo dos cards)
-            // Exibe o valor calculado com base nas licenças ativas e seus custos
-            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`; // Formata para 2 casas decimais e usa vírgula
-            valorTotalDiv.classList.remove('hidden'); // Mostra a seção do valor total
+            // VALOR TOTAL DA LICENÇA ATIVA
+            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`;
+            valorTotalDiv.classList.remove('hidden');
 
-            dashboard.classList.remove('hidden'); // Mostra o dashboard completo
+            dashboard.classList.remove('hidden');
         } catch (err) {
-            // Mensagem de erro mais detalhada para o usuário
             alert(`Erro ao buscar dados da clínica ${clinic}. Detalhes: ${err.message}. Por favor, verifique o console do navegador para mais informações (F12 > Console).`);
-            console.error('Erro ao buscar dados da clínica:', err); // Loga o erro completo no console
-            dashboard.classList.add('hidden'); // Oculta o dashboard em caso de erro
-            valorTotalDiv.classList.add('hidden'); // Oculta a seção do valor total em caso de erro
+            console.error('Erro ao buscar dados da clínica:', err);
+            dashboard.classList.add('hidden');
+            valorTotalDiv.classList.add('hidden');
         } finally {
-            loadingDiv.classList.add('hidden'); // Esconde o indicador de carregamento
+            loadingDiv.classList.add('hidden');
         }
     }
 
-    // Evento de clique no botão "Buscar"
     buscarBtn.addEventListener('click', fetchData);
 });
