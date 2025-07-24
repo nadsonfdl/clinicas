@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const clinicSelect = $('#clinicSelect'); // Usando jQuery para Select2
+    const clinicSelect = $('#clinicSelect');
     const buscarBtn = document.getElementById('buscarBtn');
     const dashboard = document.getElementById('dashboard');
     const loadingDiv = document.getElementById('loading');
     const valorTotalDiv = document.getElementById('valorTotal');
     const valorLicencaSpan = document.getElementById('valorLicenca');
 
-    // Lista completa de clínicas (mantida como antes)
     const clinics = [
         "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
         "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
@@ -52,33 +51,28 @@ document.addEventListener('DOMContentLoaded', () => {
         "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
     ];
 
-    // Popula o select com as clínicas
     clinics.forEach(clinic => {
         const option = new Option(clinic, clinic);
         clinicSelect.append(option);
     });
 
-    // Inicializa Select2 no elemento select
     clinicSelect.select2({
         placeholder: "-- Escolha uma clínica --",
-        allowClear: true // Permite limpar a seleção
+        allowClear: true
     });
 
-    // Função para buscar e exibir os dados
     async function fetchData() {
-        const clinic = clinicSelect.val(); // Usa .val() do jQuery para Select2
+        const clinic = clinicSelect.val();
         
         if (!clinic) {
             alert('Por favor, selecione uma clínica.');
             return;
         }
 
-        // Esconde o dashboard e o valor total, mostra o loading
         dashboard.classList.add('hidden');
         valorTotalDiv.classList.add('hidden');
         loadingDiv.classList.remove('hidden');
 
-        // Limpa os campos antes de carregar novos dados
         document.getElementById('licencas').innerHTML = '';
         document.getElementById('database').innerHTML = '';
         document.getElementById('clinico').innerHTML = '';
@@ -94,15 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- Formatação dos Dados para Visualização ---
 
-            // LICENÇAS ATIVAS (Card Licenças Ativas)
-            let licencasHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
+            // LICENÇAS ATIVAS E DADOS DO CONTRATO (Card Licenças e Contrato)
+            let licencasAndContractHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
             let valorTotalLicencasAtivas = 0;
 
             if (data.licencas) {
-                licencasHtml += '<table class="data-table"><thead><tr><th>Tipo de Licença</th><th>Quantidade Ativa</th></tr></thead><tbody>';
+                licencasAndContractHtml += '<table class="data-table"><thead><tr><th>Tipo de Licença</th><th>Quantidade Ativa</th></tr></thead><tbody>';
                 for (const key in data.licencas) {
                     const quantidade = parseInt(data.licencas[key]) || 0; 
-                    licencasHtml += `<tr><td><strong>${key}:</strong></td><td>${quantidade}</td></tr>`;
+                    licencasAndContractHtml += `<tr><td><strong>${key}:</strong></td><td>${quantidade}</td></tr>`;
 
                     if (key === 'CRM') {
                         valorTotalLicencasAtivas += quantidade * 100;
@@ -110,23 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         valorTotalLicencasAtivas += quantidade * 50;
                     }
                 }
-                licencasHtml += '</tbody></table>';
+                licencasAndContractHtml += '</tbody></table>';
             } else {
-                licencasHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
+                licencasAndContractHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
             }
-            document.getElementById('licencas').innerHTML = licencasHtml;
 
-            // DADOS DO SERVIDOR E CONTRATO (Card Servidor e Contrato)
-            let databaseHtml = `
-                <h4>Informações do Sistema:</h4>
-                <table class="data-table">
-                    <tbody>
-                        <tr><td><strong>Clínica:</strong></td><td>${data.clinica || 'N/A'}</td></tr>
-                        <tr><td><strong>Versão do Sistema:</strong></td><td>${data.versao || 'N/A'}</td></tr>
-                        <tr><td><strong>IP do Servidor:</strong></td><td>${data.ip || 'N/A'}</td></tr>
-                        <tr><td><strong>Hostname:</strong></td><td>${data.hostname || 'N/A'}</td></tr>
-                    </tbody>
-                </table>
+            // Adicionando Dados do Contrato no MESMO CARD
+            licencasAndContractHtml += `
                 <br>
                 <h4>Dados do Contrato:</h4>
                 <table class="data-table">
@@ -136,6 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         <tr><td><strong>Qtd. Outras Especialidades Contratadas:</strong></td><td>${data.contrato.qtd_licenca2 || 'N/A'}</td></tr>
                         <tr><td><strong>Qtd. Senhas Contratadas:</strong></td><td>${data.contrato.qtd_senha || 'N/A'}</td></tr>
                         <tr><td><strong>Qtd. NFe Contratadas:</strong></td><td>${data.contrato.qtd_nfe || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('licencas').innerHTML = licencasAndContractHtml;
+
+            // DADOS DO SERVIDOR (Card Servidor) - Agora sem os Dados do Contrato
+            let databaseHtml = `
+                <h4>Informações do Sistema:</h4>
+                <table class="data-table">
+                    <tbody>
+                        <tr><td><strong>Clínica:</strong></td><td>${data.clinica || 'N/A'}</td></tr>
+                        <tr><td><strong>Versão do Sistema:</strong></td><td>${data.versao || 'N/A'}</td></tr>
+                        <tr><td><strong>IP do Servidor:</strong></td><td>${data.ip || 'N/A'}</td></tr>
+                        <tr><td><strong>Hostname:</strong></td><td>${data.hostname || 'N/A'}</td></tr>
                     </tbody>
                 </table>
             `;
@@ -149,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tbody>
                         <tr><td><strong>Pré-Operatórios:</strong></td><td>${data.clinico.preops || 'N/A'}</td></tr>
                         <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.clinico.posops || 'N/A'}</td></tr>
-                        <tr><td><td><strong>Pacientes:</strong></td><td>${data.clinico.pacientes || 'N/A'}</td></tr>
+                        <tr><td><strong>Pacientes:</strong></td><td>${data.clinico.pacientes || 'N/A'}</td></tr>
                         <tr><td><strong>Consultas:</strong></td><td>${data.clinico.consultas || 'N/A'}</td></tr>
                     </tbody>
                 </table>
