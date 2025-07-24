@@ -1,195 +1,349 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const clinicSelect = $('#clinicSelect');
-    const buscarBtn = document.getElementById('buscarBtn');
-    const dashboard = document.getElementById('dashboard');
-    const loadingDiv = document.getElementById('loading');
-    const valorTotalDiv = document.getElementById('valorTotal');
-    const valorLicencaSpan = document.getElementById('valorLicenca');
+:root {
+    --primary-blue: #2196F3; /* Azul primário */
+    --light-blue: #E3F2FD; /* Azul muito claro para fundo */
+    --dark-blue: #1976D2;  /* Azul escuro para títulos/ícones */
+    --accent-blue: #42A5F5; /* Azul para destaque, botões */
+    --text-color: #333;
+    --card-bg: #FFFFFF;
+    --shadow-color: rgba(0,0,0,0.1);
+}
 
-    const clinics = [
-        "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
-        "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
-        "amesaude", "andros", "apercepcao", "aphrodite", "aptorax", "arche", "ares",
-        "asas", "attuare", "aura", "ayresmed", "barbaraneffa", "bariinject", "bioaisthesis",
-        "bioregenera", "blink", "bluetower", "bmh", "borduni", "brucesalles", "bsbcirurgia",
-        "bsbotorrino", "cadi", "cami", "capilmed", "cardiologia", "ccddf", "ccw", "cdai",
-        "cemefe", "centrodeaneurisma", "centrodigestivo", "clepp", "clifali", "climed",
-        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicafluxus",
-        "clinicagrisolia", "clinicamedlago", "clinicapopular", "clinicarehgio", "clinicaseg",
-        "clinicasingular", "clinos", "cliu", "coisadepele", "conexaonucleo", "conferemed",
-        "corpore", "costasouza", "csma", "curare", "darealvim", "darlaneoliver", "demo",
-        "dermaavancada", "dermacapelli", "dermattoconceito", "dfneuro", "dordogama",
-        "dralexandre", "dramonica", "dranatalia", "drci", "drfabio", "drleonardo", "drpaulo",
-        "elevee", "eliformiga", "ellaclinique", "endoeforma", "endolight",
-        "endometriosebrasilia", "espacophysio", "essenciaplena", "estivalet", "etca",
-        "eterna", "faesa", "fakhouri", "falareouvir", "fasciani", "fauve", "fenestra",
-        "ferrara", "fisioclin", "fisiocorpore", "fisioterape", "florescer", "fluir",
-        "fluxusjmv", "fonoclin", "gastrocentro", "gastrosul", "gc", "gedab", "ginemasto",
-        "grupoelas", "grutorax", "guerir", "gustavogouveia", "gustavosela", "hairdoc",
-        "hairsp", "hairuberaba", "hairuberlandia", "hineni", "homecor", "humanita", "ibes",
-        "ibrafisio", "icbari", "ilitia", "imovbsb", "info", "inspcor", "inspirarotorrino",
-        "inspire", "inspireal", "institutocorha", "institutodofigado", "institutoreluz",
-        "institutosanches", "intertorax", "interv", "intf", "inthorax", "intorax",
-        "invideo", "jaevelly", "jdrb", "jf", "leblanc", "lessence", "leticiaoba",
-        "leticiapaulino", "lifevision", "liliane", "links", "live", "llp", "lovit", "lovitls",
-        "majestic", "mamaecegonha", "mastershape", "medar", "medco", "medigastro",
-        "medinutri", "medlago", "melaredo", "meraki", "miletto", "montblanc", "multicei",
-        "neootorrino", "neurodor", "neuromed", "neurosinapse", "nfegc", "norteortopedia",
-        "nubiagoulart", "nubiasantana", "otocap", "otocare", "otocatedral", "otoclinica",
-        "otoclinicabrasilia", "otomedbh", "otoplus", "otorrinobrasilia", "otorrinodf",
-        "otorrinoms", "otorrinopatos", "otorrinopatosimac", "ouvir", "oxyclin", "pacientes",
-        "painel", "pantheon", "pectus", "pellevitta", "perfectclinic", "perinato", "philos",
-        "plenitude", "pleniture", "plexus", "pneumologia", "policlinica", "primafattura",
-        "primapelle", "proctoclinica", "producao", "psimelissa", "pulsional", "reability",
-        "rededay", "reggia", "renassance", "renovare", "resiliencia", "respiraral",
-        "respirardf", "revigore", "revita", "rfpediatria", "ruah", "sanar", "sanity",
-        "santabarbara", "saocamilo", "sartore", "selectasaude", "selectavie", "sense",
-        "serhumano", "slim", "solarea", "soniaferri", "soul", "steniomeirelles",
-        "studioschwerz", "sublime", "thaisteles", "thorax", "tivolly", "toracicaalagoas",
-        "toraxlinea", "travessia", "triangeli", "unicakids", "unidadedosonobsb", "uniprocto",
-        "uniq", "urocentro", "urogama", "urogin", "urology", "uros", "vathos",
-        "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
-    ];
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--light-blue);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
 
-    clinics.forEach(clinic => {
-        const option = new Option(clinic, clinic);
-        clinicSelect.append(option);
-    });
+header {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    clinicSelect.select2({
-        placeholder: "-- Escolha uma clínica --",
-        allowClear: true
-    });
+.logo-container {
+    margin-bottom: 15px;
+}
 
-    async function fetchData() {
-        const clinic = clinicSelect.val();
-        
-        if (!clinic) {
-            alert('Por favor, selecione uma clínica.');
-            return;
-        }
+/* NOVO ESTILO: Para a logo do IGUT */
+.igut-logo {
+    max-width: 180px; /* Ajuste o tamanho máximo do logotipo conforme necessário */
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Mantém o arredondamento, se aplicável ao design da logo */
+}
 
-        dashboard.classList.add('hidden');
-        valorTotalDiv.classList.add('hidden');
-        loadingDiv.classList.remove('hidden');
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 
-        document.getElementById('licencas').innerHTML = '';
-        document.getElementById('database').innerHTML = '';
-        document.getElementById('clinico').innerHTML = '';
-        document.getElementById('notas').innerHTML = '';
-        valorLicencaSpan.textContent = '';
+header h1 .fas {
+    font-size: 2rem;
+}
 
-        try {
-            const response = await fetch(`https://${clinic}.igutclinicas.com.br/aplicativos/info`);
-            if (!response.ok) {
-                throw new Error(`Erro HTTP! Status: ${response.status} - ${response.statusText}`);
-            }
-            const data = await response.json();
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
 
-            // --- Formatação dos Dados para Visualização ---
+.select-clinic {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border-radius: 8px;
+    border: 1px solid var(--primary-blue);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
 
-            // LICENÇAS ATIVAS E DADOS DO CONTRATO (Card Licenças e Contrato)
-            let licencasAndContractHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
-            let valorTotalLicencasAtivas = 0;
+.select-clinic label {
+    font-size: 1.1rem;
+    color: var(--dark-blue);
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
 
-            if (data.licencas) {
-                licencasAndContractHtml += '<table class="data-table"><thead><tr><th>Tipo de Licença</th><th>Quantidade Ativa</th></tr></thead><tbody>';
-                for (const key in data.licencas) {
-                    const quantidade = parseInt(data.licencas[key]) || 0; 
-                    licencasAndContractHtml += `<tr><td><strong>${key}:</strong></td><td>${quantidade}</td></tr>`;
+/* Estilo para Select2 */
+.select2-container {
+    display: block;
+    margin: 15px auto;
+    max-width: 400px;
+}
 
-                    if (key === 'CRM') {
-                        valorTotalLicencasAtivas += quantidade * 100;
-                    } else if (quantidade > 0) {
-                        valorTotalLicencasAtivas += quantidade * 50;
-                    }
-                }
-                licencasAndContractHtml += '</tbody></table>';
-            } else {
-                licencasAndContractHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
-            }
+.select2-container .select2-selection--single {
+    height: 40px;
+    border: 2px solid var(--primary-blue) !important;
+    border-radius: 5px;
+    font-size: 1rem;
+    line-height: 36px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
 
-            // Adicionando Dados do Contrato no MESMO CARD
-            licencasAndContractHtml += `
-                <br>
-                <h4>Dados do Contrato:</h4>
-                <table class="data-table">
-                    <thead><tr><th>Item do Contrato</th><th>Quantidade</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Qtd. CRM Contratada:</strong></td><td>${data.contrato.qtd_licenca || 'N/A'}</td></tr>
-                        <tr><td><strong>Qtd. Outras Especialidades Contratadas:</strong></td><td>${data.contrato.qtd_licenca2 || 'N/A'}</td></tr>
-                        <tr><td><strong>Qtd. Senhas Contratadas:</strong></td><td>${data.contrato.qtd_senha || 'N/A'}</td></tr>
-                        <tr><td><strong>Qtd. NFe Contratadas:</strong></td><td>${data.contrato.qtd_nfe || 'N/A'}</td></tr>
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('licencas').innerHTML = licencasAndContractHtml;
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: var(--text-color);
+    line-height: 36px;
+    padding-left: 15px;
+}
 
-            // DADOS DO SERVIDOR (Card Servidor) - Agora sem os Dados do Contrato
-            let databaseHtml = `
-                <h4>Informações do Sistema:</h4>
-                <table class="data-table">
-                    <tbody>
-                        <tr><td><strong>Clínica:</strong></td><td>${data.clinica || 'N/A'}</td></tr>
-                        <tr><td><strong>Versão do Sistema:</strong></td><td>${data.versao || 'N/A'}</td></tr>
-                        <tr><td><strong>IP do Servidor:</strong></td><td>${data.ip || 'N/A'}</td></tr>
-                        <tr><td><strong>Hostname:</strong></td><td>${data.hostname || 'N/A'}</td></tr>
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('database').innerHTML = databaseHtml;
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+    width: 30px;
+}
 
-            // DADOS CLÍNICOS E RECEITAS (Card Dados Clínicos)
-            let clinicoHtml = `
-                <h4>Quantidades de Registros:</h4>
-                <table class="data-table">
-                    <thead><tr><th>Métrica</th><th>Valor</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Pré-Operatórios:</strong></td><td>${data.clinico.preops || 'N/A'}</td></tr>
-                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.clinico.posops || 'N/A'}</td></tr>
-                        <tr><td><strong>Pacientes:</strong></td><td>${data.clinico.pacientes || 'N/A'}</td></tr>
-                        <tr><td><strong>Consultas:</strong></td><td>${data.clinico.consultas || 'N/A'}</td></tr>
-                    </tbody>
-                </table>
-                <br>
-                <h4>Receitas:</h4>
-                <table class="data-table">
-                    <thead><tr><th>Tipo</th><th>Valor</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.receitas.posop || 'N/A'}</td></tr>
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('clinico').innerHTML = clinicoHtml;
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: var(--dark-blue);
+}
 
-            // NOTAS EMITIDAS (Card Notas Emitidas)
-            let notasHtml = `
-                <h4>Quantidade de Notas Emitidas:</h4>
-                <table class="data-table">
-                    <thead><tr><th>Mês</th><th>Notas Emitidas</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Mês 1 (Atual):</strong></td><td>${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</td></tr>
-                        <tr><td><strong>Mês 2 (Anterior):</strong></td><td>${data.notas.mes2 !== null ? data.notas.mes2 : 'N/A'}</td></tr>
-                        <tr><td><strong>Mês 3 (Há 2 meses):</strong></td><td>${data.notas.mes3 !== null ? data.notas.mes3 : 'N/A'}</td></tr>
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('notas').innerHTML = notasHtml;
-            
-            // VALOR TOTAL DA LICENÇA ATIVA
-            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`;
-            valorTotalDiv.classList.remove('hidden');
+/* Estilo do dropdown do Select2 */
+.select2-dropdown {
+    border: 2px solid var(--primary-blue) !important;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-            dashboard.classList.remove('hidden');
-        } catch (err) {
-            alert(`Erro ao buscar dados da clínica ${clinic}. Detalhes: ${err.message}. Por favor, verifique o console do navegador para mais informações (F12 > Console).`);
-            console.error('Erro ao buscar dados da clínica:', err);
-            dashboard.classList.add('hidden');
-            valorTotalDiv.classList.add('hidden');
-        } finally {
-            loadingDiv.classList.add('hidden');
-        }
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: var(--accent-blue) !important;
+    color: white;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid var(--primary-blue);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.95rem;
+}
+
+#buscarBtn {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+#buscarBtn:hover {
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--dark-blue);
+    margin: 2rem 0;
+}
+
+.loading .fas {
+    margin-right: 10px;
+    color: var(--accent-blue);
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.8rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    padding: 1.8rem;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.card h3 {
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.card .fas {
+    color: var(--primary-blue);
+    margin-right: 0.8rem;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+/* Ajustes para o conteúdo interno dos cards */
+.card-content {
+    font-size: 0.95rem;
+    color: #555;
+    text-align: left;
+    width: 100%;
+    overflow-x: auto;
+    background-color: #f9f9f9;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    min-height: 80px;
+}
+
+.card-content > div {
+    margin-bottom: 5px;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.card-content h4 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--dark-blue);
+    font-size: 1.1rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilos para as tabelas dentro dos cards */
+.card-content .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.card-content .data-table th,
+.card-content .data-table td {
+    padding: 10px 12px;
+    border: 1px solid #eee;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.card-content .data-table th {
+    background-color: var(--primary-blue);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    padding: 12px 12px;
+}
+
+.card-content .data-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.card-content .data-table tr:hover {
+    background-color: #eef;
+}
+
+.card-content .data-table td strong {
+    color: var(--dark-blue);
+}
+
+.total-valor {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding: 1.2rem;
+    background-color: #BBDEFB;
+    color: var(--dark-blue);
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.total-valor .fas {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
     }
-
-    buscarBtn.addEventListener('click', fetchData);
-});
+    header h1 .fas {
+        font-size: 1.6rem;
+    }
+    .container {
+        padding: 15px;
+    }
+    .select-clinic {
+        padding: 10px;
+    }
+    .select-clinic label {
+        font-size: 1rem;
+    }
+    #buscarBtn {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .card {
+        padding: 1.2rem;
+    }
+    .card h3 {
+        font-size: 1.3rem;
+    }
+    .card .fas {
+        font-size: 1.8rem;
+    }
+    .card-content {
+        font-size: 0.9rem;
+    }
+    .total-valor {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+    /* Estilo da nova logo em telas menores */
+    .igut-logo {
+        max-width: 150px;
+    }
+}
