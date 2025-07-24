@@ -6,7 +6,7 @@
     <title>Dashboard Clínicas IGUT</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHpZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
@@ -33,28 +33,28 @@
         <div id="dashboard" class="dashboard hidden">
             <div class="card">
                 <i class="fas fa-id-badge"></i>
-                <h3>Licenças</h3>
-                <pre id="licencas" class="card-content"></pre>
+                <h3>Licenças Ativas</h3>
+                <div id="licencas" class="card-content"></div>
             </div>
             <div class="card">
                 <i class="fas fa-database"></i>
-                <h3>Banco de Dados</h3>
-                <p id="database" class="card-content"></p>
+                <h3>Servidor e Contrato</h3>
+                <div id="database" class="card-content"></div>
             </div>
             <div class="card">
                 <i class="fas fa-user-md"></i>
                 <h3>Dados Clínicos</h3>
-                <pre id="clinico" class="card-content"></pre>
+                <div id="clinico" class="card-content"></div>
             </div>
             <div class="card">
                 <i class="fas fa-file-invoice"></i>
-                <h3>Notas</h3>
-                <pre id="notas" class="card-content"></pre>
+                <h3>Notas Emitidas</h3>
+                <div id="notas" class="card-content"></div>
             </div>
         </div>
 
         <div id="valorTotal" class="total-valor hidden">
-            💸 Valor total da licença: <span id="valorLicenca"></span>
+            💸 Valor Estimado das Licenças Ativas: <span id="valorLicenca"></span>
         </div>
     </div>
 
