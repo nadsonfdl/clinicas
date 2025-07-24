@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const valorTotalDiv = document.getElementById('valorTotal');
     const valorLicencaSpan = document.getElementById('valorLicenca');
 
-    // Lista completa de clínicas
+    // Lista completa de clínicas (mantida como antes)
     const clinics = [
         "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
         "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
@@ -88,28 +88,81 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`https://${clinic}.igutclinicas.com.br/aplicativos/info`);
             if (!response.ok) {
-                throw new Error(`Erro HTTP! Status: ${response.status}`);
+                // Se a resposta não for OK, mas o erro for de CORS, o status será 0 ou a requisição falhará antes.
+                // Aqui estamos tratando erros HTTP como 404, 500, etc.
+                throw new Error(`Erro HTTP! Status: ${response.status} - ${response.statusText}`);
             }
             const data = await response.json();
 
-            // Usar textContent para evitar problemas de segurança e garantir formatação em <pre>
-            document.getElementById('licencas').textContent = JSON.stringify(data.licencas, null, 2);
-            // Usar \n para quebra de linha em <p>
-            document.getElementById('database').textContent = `IP: ${data.ip}\nHostname: ${data.hostname}`; 
-            document.getElementById('clinico').textContent = JSON.stringify(data.clinico, null, 2);
-            document.getElementById('notas').textContent = JSON.stringify(data.notas, null, 2);
-            
-            // Exibir valor total da licença se existir
-            if (data.licencas && typeof data.licencas.valorTotal !== 'undefined') {
-                valorLicencaSpan.textContent = `R$ ${parseFloat(data.licencas.valorTotal).toFixed(2).replace('.', ',')}`;
-                valorTotalDiv.classList.remove('hidden');
+            // --- Formatação dos Dados para Visualização ---
+
+            // LICENÇAS ATIVAS (Card Licenças)
+            let licencasHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
+            let valorTotalLicencasAtivas = 0;
+
+            if (data.licencas) {
+                for (const key in data.licencas) {
+                    const quantidade = parseInt(data.licencas[key]) || 0; // Garante que é um número
+                    licencasHtml += `<div><strong>${key}:</strong> ${quantidade}</div>`;
+
+                    // Cálculo do valor monetário das licenças ativas
+                    if (key === 'CRM') {
+                        valorTotalLicencasAtivas += quantidade * 100; // R$100,00 por CRM
+                    } else if (quantidade > 0) { // Demais tipos com R$50,00
+                        valorTotalLicencasAtivas += quantidade * 50;
+                    }
+                }
             } else {
-                valorTotalDiv.classList.add('hidden');
+                licencasHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
             }
+            document.getElementById('licencas').innerHTML = licencasHtml;
+
+            // DADOS DO SERVIDOR E CONTRATO (Card Banco de Dados)
+            let databaseHtml = `
+                <h4>Informações do Servidor:</h4>
+                <div><strong>Clínica:</strong> ${data.clinica || 'N/A'}</div>
+                <div><strong>Versão do Sistema:</strong> ${data.versao || 'N/A'}</div>
+                <div><strong>IP:</strong> ${data.ip || 'N/A'}</div>
+                <div><strong>Hostname:</strong> ${data.hostname || 'N/A'}</div>
+                <br>
+                <h4>Dados do Contrato:</h4>
+                <div><strong>Qtd. CRM Contratada:</strong> ${data.contrato.qtd_licenca || 'N/A'}</div>
+                <div><strong>Qtd. Outras Especialidades Contratadas:</strong> ${data.contrato.qtd_licenca2 || 'N/A'}</div>
+                <div><strong>Qtd. Senhas Contratadas:</strong> ${data.contrato.qtd_senha || 'N/A'}</div>
+                <div><strong>Qtd. NFe Contratadas:</strong> ${data.contrato.qtd_nfe || 'N/A'}</div>
+            `;
+            document.getElementById('database').innerHTML = databaseHtml;
+
+            // DADOS CLÍNICOS E RECEITAS (Card Dados Clínicos)
+            let clinicoHtml = `
+                <h4>Quantidades de Registros:</h4>
+                <div><strong>Pré-Operatórios:</strong> ${data.clinico.preops || 'N/A'}</div>
+                <div><strong>Pós-Operatórios:</strong> ${data.clinico.posops || 'N/A'}</div>
+                <div><strong>Pacientes:</strong> ${data.clinico.pacientes || 'N/A'}</div>
+                <div><strong>Consultas:</strong> ${data.clinico.consultas || 'N/A'}</div>
+                <br>
+                <h4>Receitas:</h4>
+                <div><strong>Pós-Operatórios:</strong> ${data.receitas.posop || 'N/A'}</div>
+            `;
+            document.getElementById('clinico').innerHTML = clinicoHtml;
+
+            // NOTAS EMITIDAS (Card Notas)
+            let notasHtml = `
+                <h4>Quantidade de Notas Emitidas:</h4>
+                <div><strong>Mês 1 (Atual):</strong> ${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</div>
+                <div><strong>Mês 2 (Anterior):</strong> ${data.notas.mes2 !== null ? data.notas.mes2 : 'N/A'}</div>
+                <div><strong>Mês 3 (Há 2 meses):</strong> ${data.notas.mes3 !== null ? data.notas.mes3 : 'N/A'}</div>
+            `;
+            document.getElementById('notas').innerHTML = notasHtml;
+            
+            // VALOR TOTAL DA LICENÇA ATIVA (Seção abaixo dos cards)
+            // Agora calculado com base nas licenças ativas e seus valores
+            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`;
+            valorTotalDiv.classList.remove('hidden');
 
             dashboard.classList.remove('hidden');
         } catch (err) {
-            alert(`Erro ao buscar dados da clínica ${clinic}: ${err.message}. Por favor, tente novamente.`);
+            alert(`Erro ao buscar dados da clínica ${clinic}. Detalhes: ${err.message}. Por favor, verifique o console do navegador para mais informações (F12 > Console).`);
             console.error('Erro ao buscar dados da clínica:', err);
             dashboard.classList.add('hidden'); // Oculta o dashboard em caso de erro
             valorTotalDiv.classList.add('hidden');
