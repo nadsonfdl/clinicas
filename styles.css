@@ -79,103 +79,115 @@ header h1 .fas {
 .select-clinic {
     text-align: center;
     margin-bottom: 2rem;
-    padding: 15px;
+    padding: 20px; /* Aumentado o padding para mais espaço */
     background-color: #f0f8ff; /* Fundo suave para a área do seletor */
-    border-radius: 8px;
+    border-radius: 10px; /* Cantos um pouco mais arredondados */
     border: 1px solid var(--primary-blue);
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Sombra mais visível */
 }
 
 .select-clinic label {
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Tamanho da fonte ligeiramente maior */
     color: var(--dark-blue);
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Mais espaço abaixo do label */
     display: block;
 }
 
 /* Estilo para Select2 (container principal) */
 .select2-container {
-    display: block; /* Garante que ocupe a largura disponível */
-    margin: 15px auto; /* Centraliza e adiciona margem */
-    max-width: 400px; /* Largura máxima para o seletor */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consiste a fonte */
+    display: block;
+    margin: 20px auto; /* Mais margem */
+    max-width: 450px; /* Largura máxima um pouco maior */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.05rem; /* Fonte ligeiramente maior */
 }
 
 /* Estilo para a caixa de seleção principal do Select2 */
 .select2-container .select2-selection--single {
-    height: 40px; /* Altura fixa */
-    border: 2px solid var(--primary-blue) !important; /* Borda azul mais grossa */
-    border-radius: 5px; /* Cantos arredondados */
-    font-size: 1rem;
-    line-height: 36px; /* Ajusta o alinhamento vertical do texto */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra suave */
-    transition: all 0.2s ease;
+    height: 45px; /* Altura aumentada */
+    border: 2px solid var(--primary-blue) !important;
+    border-radius: 8px; /* Cantos mais arredondados */
+    font-size: 1.05rem;
+    line-height: 41px; /* Ajusta o alinhamento vertical do texto */
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* Sombra suave */
+    transition: all 0.3s ease;
+    background-color: var(--card-bg); /* Fundo branco para a caixa de seleção */
+}
+
+.select2-container .select2-selection--single:focus,
+.select2-container .select2-selection--single:active {
+    border-color: var(--accent-blue) !important; /* Mudar cor da borda ao focar */
+    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.3) !important; /* Adiciona um brilho ao focar */
 }
 
 /* Estilo para o texto renderizado na caixa de seleção */
 .select2-container .select2-selection--single .select2-selection__rendered {
     color: var(--text-color);
-    line-height: 36px; /* Alinha o texto verticalmente */
-    padding-left: 15px; /* Espaçamento à esquerda */
+    line-height: 41px; /* Alinha o texto verticalmente */
+    padding-left: 18px; /* Mais espaçamento à esquerda */
 }
 
 /* Estilo para a seta do Select2 */
 .select2-container .select2-selection--single .select2-selection__arrow {
-    height: 38px; /* Altura da seta */
-    width: 30px; /* Largura da seta */
+    height: 43px; /* Altura da seta */
+    width: 40px; /* Largura da seta */
 }
 
 /* Estilo para o botão de limpar (x) do Select2 */
 .select2-container--default .select2-selection--single .select2-selection__clear {
-    margin-right: 10px; /* Espaçamento à direita */
-    font-size: 1.2rem; /* Tamanho do ícone de limpar */
-    color: var(--dark-blue); /* Cor do ícone */
+    margin-right: 15px; /* Mais espaçamento à direita */
+    font-size: 1.4rem; /* Tamanho do ícone de limpar */
+    color: #999; /* Cor mais suave */
     transition: color 0.2s ease;
 }
 .select2-container--default .select2-selection--single .select2-selection__clear:hover {
-    color: #E74C3C; /* Cor ao passar o mouse */
+    color: var(--dark-blue); /* Cor ao passar o mouse */
 }
 
 
 /* Estilo do dropdown (lista de opções) do Select2 */
 .select2-dropdown {
-    border: 2px solid var(--primary-blue) !important; /* Borda azul consistente */
-    border-radius: 5px; /* Cantos arredondados */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra para o dropdown */
+    border: 2px solid var(--primary-blue) !important;
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Sombra mais pronunciada */
+    overflow: hidden; /* Garante que os cantos arredondados funcionem */
 }
 
 /* Estilo para as opções destacadas (ao passar o mouse ou usar teclado) */
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: var(--accent-blue) !important; /* Fundo azul de destaque */
-    color: white; /* Texto branco */
+    background-color: var(--accent-blue) !important;
+    color: white;
 }
 
 /* Estilo para o campo de busca dentro do dropdown do Select2 */
 .select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid var(--primary-blue); /* Borda azul para o campo de busca */
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 0.95rem;
+    border: 1px solid var(--primary-blue);
+    border-radius: 6px; /* Cantos arredondados */
+    padding: 10px; /* Mais padding */
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); /* Sombra interna */
 }
 
 /* Estilo do botão de busca */
 #buscarBtn {
     background-color: var(--primary-blue);
     color: white;
-    padding: 10px 25px;
+    padding: 12px 30px; /* Mais padding */
     border: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
+    border-radius: 8px; /* Cantos arredondados */
+    font-size: 1.2rem; /* Fonte ligeiramente maior */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 15px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 20px; /* Mais margem superior */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombra mais visível */
+    font-weight: bold; /* Negrito */
 }
 
 #buscarBtn:hover {
     background-color: var(--dark-blue);
-    transform: translateY(-2px);
+    transform: translateY(-3px); /* Efeito de elevação maior */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3); /* Sombra maior no hover */
 }
 
 .loading {
@@ -230,8 +242,6 @@ header h1 .fas {
     font-size: 2.2rem;
     margin-bottom: 10px;
 }
-
-/* Removidos os estilos de .card.large-card, pois o conteúdo foi movido para o footer */
 
 /* Ajustes para o conteúdo interno dos cards (geral) */
 .card-content {
@@ -400,14 +410,28 @@ footer {
         padding: 15px;
     }
     .select-clinic {
-        padding: 10px;
+        padding: 15px; /* Ajusta o padding em telas menores */
     }
     .select-clinic label {
-        font-size: 1rem;
+        font-size: 1.1rem;
+    }
+    .select2-container {
+        max-width: 100%; /* Permite que o select ocupe mais largura em telas pequenas */
+    }
+    .select2-container .select2-selection--single {
+        height: 40px; /* Altura menor em telas pequenas */
+        line-height: 36px;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        line-height: 36px;
+        padding-left: 12px;
+    }
+    .select2-container .select2-selection--single .select2-selection__arrow {
+        height: 38px;
     }
     #buscarBtn {
-        font-size: 1rem;
-        padding: 8px 20px;
+        font-size: 1.05rem;
+        padding: 10px 25px;
     }
     .dashboard {
         grid-template-columns: 1fr;
@@ -433,15 +457,15 @@ footer {
         max-width: 150px;
     }
     .whatsapp-buttons {
-        flex-direction: column; /* Botões um abaixo do outro em telas pequenas */
+        flex-direction: column;
         align-items: center;
     }
     .whatsapp-btn {
-        width: 100%; /* Ocupa a largura total disponível */
-        max-width: none; /* Remove a largura máxima */
+        width: 100%;
+        max-width: none;
     }
     footer {
-        padding: 12px 0; /* Ajusta o padding do footer para telas menores */
+        padding: 12px 0;
         font-size: 0.85rem;
     }
 }
