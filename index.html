@@ -3,74 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Clínicas IGUT</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+    <title>Dashboard | Clínicas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHpZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="https://externo.igutclinicas.com.br/img/logo_igut_white.png" alt="Logotipo IGUT Clínicas" class="igut-logo">
-        </div>
-        <h1><i class="fas fa-clinic-medical"></i> Dashboard Clínicas IGUT</h1>
-    </header>
 
-    <div class="container">
-        <div class="select-clinic">
-            <label for="clinicSelect">Selecione uma Clínica:</label><br>
-            <select id="clinicSelect">
-                <option value="">-- Escolha uma clínica --</option>
-                </select>
-            <br>
-            <button id="buscarBtn">Buscar</button>
-        </div>
-
-        <div id="loading" class="loading hidden">
-            <i class="fas fa-spinner fa-spin"></i> Carregando dados...
-        </div>
-
-        <div id="dashboard" class="dashboard hidden">
-            <div class="card">
-                <h3><i class="fas fa-id-badge"></i> Licenças e Contrato</h3>
-                <div id="licencas" class="card-content">
-                    <div id="licencas-data-container">
-                        </div>
-                    <div class="whatsapp-buttons hidden">
-                        <a id="whatsappCrmBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                            <i class="fab fa-whatsapp"></i> Solicitar Licença CRM
-                        </a>
-                        <a id="whatsappOutrasBtn" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                            <i class="fab fa-whatsapp"></i> Solicitar Outras Licenças
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-database"></i> Servidor</h3>
-                <div id="database" class="card-content"></div>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-user-md"></i> Dados Clínicos</h3>
-                <div id="clinico" class="card-content"></div>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-file-invoice"></i> Notas Emitidas</h3>
-                <div id="notas" class="card-content"></div>
-            </div>
-            </div>
-
-        <div id="valorTotal" class="total-valor hidden">
-            💸 Valor Estimado das Licenças Ativas: <span id="valorLicenca"></span>
+    <div id="system-selection" class="system-selection">
+        <h2>Selecione o Sistema</h2>
+        <div class="system-cards">
+            <a href="#" class="system-card" id="igut-card">
+                <img src="https://externo.igutclinicas.com.br/img/logo_igut_white.png" alt="Logotipo IGUT Clínicas" class="system-logo">
+                <p>Dashboard Clínicas IGUT</p>
+            </a>
+            <a href="#" class="system-card" id="eba-card">
+                <img src="path/to/eba/logo.png" alt="Logotipo EBA" class="system-logo">
+                <p>Dashboard EBA</p>
+            </a>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <div class="container hidden">
+
+        <header>
+            <div class="logo">
+                <img src="https://externo.igutclinicas.com.br/img/logo_igut_white.png" alt="Logo">
+            </div>
+            <div class="header-content">
+                <h1>Dashboard Clínicas</h1>
+                <p>O seu painel de dados em tempo real</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="select-clinic">
+                <select id="clinic-select"></select>
+                <button id="search-button"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+
+            <div class="loading hidden">
+                <div class="spinner"></div>
+                <span>Carregando dados...</span>
+            </div>
+
+            <section id="dashboard" class="dashboard hidden">
+                <div class="card">
+                    <h3><i class="fas fa-user-md"></i> Licenças e Contrato</h3>
+                    <div class="card-content">
+                        <p><strong>Total de licenças ativas:</strong> <span id="total-licencas">0</span></p>
+                        <p><strong>Licenças CRM:</strong> <span id="licencas-crm">0</span></p>
+                        <p><strong>Outras licenças:</strong> <span id="outras-licencas">0</span></p>
+                        <p><strong>Valor estimado de licenças ativas:</strong> <span id="valor-licencas">R$ 0,00</span></p>
+                        <p><strong>Quantidade de licenças contratadas:</strong> <span id="qtd-licencas-contrato">0</span></p>
+                        <p><strong>Licenças CRM contratadas:</strong> <span id="crm-contratado">0</span></p>
+                        <p><strong>Licenças especialidades contratadas:</strong> <span id="especialidades-contratadas">0</span></p>
+                        <div class="whatsapp-buttons">
+                            <a id="btn-whatsapp-crm" href="" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i> Solicitar Licença CRM</a>
+                            <a id="btn-whatsapp-especialidade" href="" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i> Solicitar Outra Licença</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-server"></i> Servidor</h3>
+                    <div class="card-content">
+                        <p><strong>Nome da clínica:</strong> <span id="nome-clinica">N/A</span></p>
+                        <p><strong>Versão:</strong> <span id="versao">N/A</span></p>
+                        <p><strong>IP:</strong> <span id="ip-servidor">N/A</span></p>
+                        <p><strong>Hostname:</strong> <span id="hostname">N/A</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Dados Clínicos</h3>
+                    <div class="card-content">
+                        <p><strong>Pacientes:</strong> <span id="pacientes">0</span></p>
+                        <p><strong>Consultas:</strong> <span id="consultas">0</span></p>
+                        <p><strong>Pré-operatórios:</strong> <span id="pre-operatorios">0</span></p>
+                        <p><strong>Pós-operatórios:</strong> <span id="pos-operatorios">0</span></p>
+                        <p><strong>Receita pós-operatórios:</strong> <span id="receita-pos">R$ 0,00</span></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-file-invoice"></i> Notas Emitidas (Últimos 3 meses)</h3>
+                    <div class="card-content">
+                        <p><strong>Notas emitidas:</strong> <span id="notas-emitidas">0</span></p>
+                    </div>
+                </div>
+            </section>
+        
+            <section id="dashboard-eba" class="dashboard hidden">
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Dados Financeiros EBA</h3>
+                    <div class="card-content" id="eba-finance">
+                        </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-tasks"></i> Métricas Operacionais EBA</h3>
+                    <div class="card-content" id="eba-metrics">
+                        </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Dashboard Clínicas IGUT. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
     <script src="script.js"></script>
-
-    <footer>
-        <p>&copy; 2024 IGUT Clínicas. Todos os direitos reservados. Desenvolvedor Analista Nadson Fernandes.</p>
-    </footer>
 </body>
 </html>
