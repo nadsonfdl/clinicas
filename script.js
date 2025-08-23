@@ -1,151 +1,278 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Elementos da interface
-    const clinicSelect = $('#clinic-select');
-    const searchButton = document.getElementById('search-button');
-    const loadingDiv = document.querySelector('.loading');
+    const clinicSelect = $('#clinicSelect'); 
+    const buscarBtn = document.getElementById('buscarBtn');
     const dashboardDiv = document.getElementById('dashboard');
+    const loadingDiv = document.getElementById('loading');
+    const valorTotalDiv = document.getElementById('valorTotal');
+    const valorLicencaSpan = document.getElementById('valorLicenca');
+    const licencasDataContainer = document.getElementById('licencas-data-container');
+    const whatsappButtonsContainer = document.querySelector('.whatsapp-buttons');
+    const whatsappCrmBtn = document.getElementById('whatsappCrmBtn');
+    const whatsappOutrasBtn = document.getElementById('whatsappOutrasBtn');
+
+    // Novos elementos da tela de seleção e dashboards
     const systemSelection = document.getElementById('system-selection');
-    const mainContainer = document.querySelector('.container');
-    const selectClinicSection = document.querySelector('.select-clinic');
-    const dashboardEba = document.getElementById('dashboard-eba');
+    const dashboardContainer = document.querySelector('.dashboard-container');
     const igutCard = document.getElementById('igut-card');
     const ebaCard = document.getElementById('eba-card');
+    const igutContent = document.getElementById('igut-content');
+    const ebaContent = document.getElementById('eba-content');
+    const dashboardTitle = document.getElementById('dashboard-title');
     const body = document.body;
 
-    // Adiciona o tema padrão IGUT ao carregar a página
+    // Adiciona o tema IGUT como padrão ao carregar a página
     body.classList.add('theme-igut');
 
-    // Mapeamento de clínicas (substitua com dados reais)
     const clinics = [
-        { id: 1, text: "Clínica A", nome_clinica: "Clínica A" },
-        { id: 2, text: "Clínica B", nome_clinica: "Clínica B" },
-        // Adicione mais clínicas aqui
+        "acaopositiva", "acaopositivagama", "acbiblico", "acolhedor", "advance", "agape",
+        "aidaalvim", "aiza", "akhos", "allvida", "alpha", "amandaambrosio", "ame", "amego",
+        "amesaude", "andros", "apercepcao", "aphrodite", "aptorax", "arche", "ares",
+        "asas", "attuare", "aura", "ayresmed", "barbaraneffa", "bariinject", "bioaisthesis",
+        "bioregenera", "blink", "bluetower", "bmh", "borduni", "brucesalles", "bsbcirurgia",
+        "bsbotorrino", "cadi", "cami", "capilmed", "cardiologia", "ccddf", "ccw", "cdai",
+        "cemefe", "centrodeaneurisma", "centrodigestivo", "clepp", "clifali", "climed",
+        "climepo", "clinen", "clinicadacrianca", "clinicadotorax", "clinicadafluxus",
+        "clinicagrisolia", "clinicamedlago", "clinicapopular", "clinicarehgio", "clinicaseg",
+        "clinicasingular", "clinos", "cliu", "coisadepele", "conexaonucleo", "conferemed",
+        "corpore", "costasouza", "csma", "curare", "darealvim", "darlaneoliver", "demo",
+        "dermaavancada", "dermacapelli", "dermattoconceito", "dfneuro", "dordogama",
+        "dralexandre", "dramonica", "dranatalia", "drci", "drfabio", "drleonardo", "drpaulo",
+        "elevee", "eliformiga", "ellaclinique", "endoeforma", "endolight",
+        "endometriosebrasilia", "espacophysio", "essenciaplena", "estivalet", "etca",
+        "eterna", "faesa", "fakhouri", "falareouvir", "fasciani", "fauve", "fenestra",
+        "ferrara", "fisioclin", "fisiocorpore", "fisioterape", "florescer", "fluir",
+        "fluxusjmv", "fonoclin", "gastrocentro", "gastrosul", "gc", "gedab", "ginemasto",
+        "grupoelas", "grutorax", "guerir", "gustavogouveia", "gustavosela", "hairdoc",
+        "hairsp", "hairuberaba", "hairuberlandia", "hineni", "homecor", "humanita", "ibes",
+        "ibrafisio", "icbari", "ilitia", "imovbsb", "info", "inspcor", "inspirarotorrino",
+        "inspire", "inspireal", "institutocorha", "institutodofigado", "institutoreluz",
+        "institutosanches", "intertorax", "interv", "intf", "inthorax", "intorax",
+        "invideo", "jaevelly", "jdrb", "jf", "leblanc", "lessence", "leticiaoba",
+        "leticiapaulino", "lifevision", "liliane", "links", "live", "llp", "lovit", "lovitls",
+        "majestic", "mamaecegonha", "mastershape", "medar", "medco", "medigastro",
+        "medinutri", "medlago", "melaredo", "meraki", "miletto", "montblanc", "multicei",
+        "neootorrino", "neurodor", "neuromed", "neurosinapse", "nfegc", "norteortopedia",
+        "nubiagoulart", "nubiasantana", "otocap", "otocare", "otocatedral", "otoclinica",
+        "otoclinicabrasilia", "otomedbh", "otoplus", "otorrinobrasilia", "otorrinodf",
+        "otorrinoms", "otorrinopatos", "otorrinopatosimac", "ouvir", "oxyclin", "pacientes",
+        "painel", "pantheon", "pectus", "pellevitta", "perfectclinic", "perinato", "philos",
+        "plenitude", "pleniture", "plexus", "pneumologia", "policlinica", "primafattura",
+        "primapelle", "proctoclinica", "producao", "psimelissa", "pulsional", "reability",
+        "rededay", "reggia", "renassance", "renovare", "resiliencia", "respiraral",
+        "respirardf", "revigore", "revita", "rfpediatria", "ruah", "sanar", "sanity",
+        "santabarbara", "saocamilo", "sartore", "selectasaude", "selectavie", "sense",
+        "serhumano", "slim", "solarea", "soniaferri", "soul", "steniomeirelles",
+        "studioschwerz", "sublime", "thaisteles", "thorax", "tivolly", "toracicaalagoas",
+        "toraxlinea", "travessia", "triangeli", "unicakids", "unidadedosonobsb", "uniprocto",
+        "uniq", "urocentro", "urogama", "urogin", "urology", "uros", "vathos",
+        "ventteclinic", "veridium", "viavitae", "voxvita", "walfisio", "wandahorta", "woori"
     ];
 
-    // Inicializa o Select2
+    clinics.forEach(clinic => {
+        const option = new Option(clinic, clinic);
+        clinicSelect.append(option);
+    });
+
     clinicSelect.select2({
-        data: clinics,
-        placeholder: "Selecione uma clínica...",
+        placeholder: "-- Escolha uma clínica --",
         allowClear: true
     });
 
-    // Evento de clique no card do IGUT
     igutCard.addEventListener('click', (e) => {
         e.preventDefault();
         body.classList.remove('theme-eba');
         body.classList.add('theme-igut');
         systemSelection.classList.add('hidden');
-        mainContainer.classList.remove('hidden');
-        selectClinicSection.classList.remove('hidden');
-        dashboardDiv.classList.add('hidden');
-        dashboardEba.classList.add('hidden');
+        dashboardContainer.classList.remove('hidden');
+        igutContent.classList.remove('hidden');
+        ebaContent.classList.add('hidden');
+        dashboardTitle.innerHTML = '<i class="fas fa-clinic-medical"></i> Dashboard Clínicas IGUT';
     });
 
-    // Evento de clique no card do EBA
     ebaCard.addEventListener('click', (e) => {
         e.preventDefault();
         body.classList.remove('theme-igut');
         body.classList.add('theme-eba');
         systemSelection.classList.add('hidden');
-        mainContainer.classList.remove('hidden');
-        selectClinicSection.classList.add('hidden');
-        dashboardDiv.classList.add('hidden');
-        dashboardEba.classList.remove('hidden');
-        fetchEbaData();
+        dashboardContainer.classList.remove('hidden');
+        igutContent.classList.add('hidden');
+        ebaContent.classList.remove('hidden');
+        dashboardTitle.innerHTML = '<i class="fas fa-chart-line"></i> Dashboard EBA';
+        fetchEbaData(); // Chama a função para buscar dados do EBA
     });
 
-    // Evento de clique no botão de busca
-    searchButton.addEventListener('click', async () => {
-        const selectedClinic = clinicSelect.val();
-        if (!selectedClinic) {
+    async function fetchData() {
+        const clinic = clinicSelect.val();
+        
+        if (!clinic) {
             alert('Por favor, selecione uma clínica.');
             return;
         }
-        
-        // Esconde o select e mostra o loading
-        selectClinicSection.classList.add('hidden');
-        loadingDiv.classList.remove('hidden');
+
         dashboardDiv.classList.add('hidden');
+        valorTotalDiv.classList.add('hidden');
+        whatsappButtonsContainer.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
+
+        licencasDataContainer.innerHTML = ''; 
+        document.getElementById('database').innerHTML = '';
+        document.getElementById('clinico').innerHTML = '';
+        document.getElementById('notas').innerHTML = '';
+        valorLicencaSpan.textContent = '';
 
         try {
-            // Requisição para a API do IGUT
-            const response = await fetch(`https://api.igutclinicas.com.br/clinica?id=${selectedClinic}`);
+            const response = await fetch(`https://${clinic}.igutclinicas.com.br/aplicativos/info`);
             if (!response.ok) {
-                throw new Error('Erro ao buscar dados da clínica.');
+                throw new Error(`Erro HTTP! Status: ${response.status} - ${response.statusText}`);
             }
             const data = await response.json();
-            
-            // Preenche os cards com os dados recebidos
-            document.getElementById('nome-clinica').textContent = data.nome_clinica;
-            document.getElementById('total-licencas').textContent = data.licencas.total_licencas_ativas;
-            document.getElementById('licencas-crm').textContent = data.licencas.licencas_crm;
-            document.getElementById('outras-licencas').textContent = data.licencas.outras_licencas;
-            document.getElementById('valor-licencas').textContent = formatCurrency(data.licencas.valor_estimado);
-            document.getElementById('qtd-licencas-contrato').textContent = data.licencas.qtd_licencas_contratadas;
-            document.getElementById('crm-contratado').textContent = data.licencas.licencas_crm_contratadas;
-            document.getElementById('especialidades-contratadas').textContent = data.licencas.licencas_especialidades_contratadas;
-            
-            document.getElementById('versao').textContent = data.servidor.versao;
-            document.getElementById('ip-servidor').textContent = data.servidor.ip;
-            document.getElementById('hostname').textContent = data.servidor.hostname;
-            
-            document.getElementById('pacientes').textContent = data.dados_clinicos.pacientes;
-            document.getElementById('consultas').textContent = data.dados_clinicos.consultas;
-            document.getElementById('pre-operatorios').textContent = data.dados_clinicos.pre_operatorios;
-            document.getElementById('pos-operatorios').textContent = data.dados_clinicos.pos_operatorios;
-            document.getElementById('receita-pos').textContent = formatCurrency(data.dados_clinicos.receita_pos_operatorios);
-            
-            document.getElementById('notas-emitidas').textContent = data.notas.notas_emitidas;
-            
-            // Ativa os links do WhatsApp
-            const crmMessage = `Olá, gostaria de solicitar uma licença CRM para a clínica ${data.nome_clinica}.`;
-            const specialityMessage = `Olá, gostaria de solicitar uma licença de outra especialidade para a clínica ${data.nome_clinica}.`;
-            
-            document.getElementById('btn-whatsapp-crm').href = `https://wa.me/5599999999999?text=${encodeURIComponent(crmMessage)}`;
-            document.getElementById('btn-whatsapp-especialidade').href = `https://wa.me/5599999999999?text=${encodeURIComponent(specialityMessage)}`;
 
-            loadingDiv.classList.add('hidden');
+            let licencasAndContractHtml = '<h4>Quantidade de Licenças Ativas:</h4>';
+            let valorTotalLicencasAtivas = 0;
+
+            if (data.licencas) {
+                licencasAndContractHtml += '<table class="data-table"><thead><tr><th>Tipo de Licença</th><th>Quantidade Ativa</th></tr></thead><tbody>';
+                for (const key in data.licencas) {
+                    const quantidade = parseInt(data.licencas[key]) || 0; 
+                    licencasAndContractHtml += `<tr><td><strong>${key}:</strong></td><td>${quantidade}</td></tr>`;
+
+                    if (key === 'CRM') {
+                        valorTotalLicencasAtivas += quantidade * 100;
+                    } else if (quantidade > 0) {
+                        valorTotalLicencasAtivas += quantidade * 50;
+                    }
+                }
+                licencasAndContractHtml += '</tbody></table>';
+            } else {
+                licencasAndContractHtml += '<div>Nenhuma informação de licença ativa disponível.</div>';
+            }
+
+            licencasAndContractHtml += `
+                <br>
+                <h4>Dados do Contrato:</h4>
+                <table class="data-table">
+                    <thead><tr><th>Item do Contrato</th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Qtd. CRM Contratada:</strong></td><td>${data.contrato.qtd_licenca || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. Outras Especialidades Contratadas:</strong></td><td>${data.contrato.qtd_licenca2 || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. Senhas Contratadas:</strong></td><td>${data.contrato.qtd_senha || 'N/A'}</td></tr>
+                        <tr><td><strong>Qtd. NFe Contratadas:</strong></td><td>${data.contrato.qtd_nfe || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+            `;
+            
+            licencasDataContainer.innerHTML = licencasAndContractHtml;
+
+            const phoneNumber = '556184018877';
+            const baseMessage = `Olá, Sr. Jair!%0A%0AGostaria de solicitar informações financeiras sobre a clínica *${clinic.toUpperCase()}*.%0A%0APreciso de uma solicitação de licença *[TIPO_LICENCA]*:`;
+            const templateDetails = `%0A%0A*Dados para preencher:*%0AQuantidade: [Editar]%0ANome do Médico: [Editar]%0AEspecialidade: [Editar]%0ACPF: [Editar]%0A%0AAtenciosamente,`;
+            const crmMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'CRM') + templateDetails);
+            const outrasMessage = encodeURIComponent(baseMessage.replace('[TIPO_LICENCA]', 'Outras Especialidades') + templateDetails);
+
+            whatsappCrmBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${crmMessage}`;
+            whatsappOutrasBtn.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${outrasMessage}`;
+            
+            whatsappButtonsContainer.classList.remove('hidden');
+
+            let databaseHtml = `
+                <h4>Informações do Sistema:</h4>
+                <table class="data-table">
+                    <tbody>
+                        <tr><td><strong>Clínica:</strong></td><td>${data.clinica || 'N/A'}</td></tr>
+                        <tr><td><strong>Versão do Sistema:</strong></td><td>${data.versao || 'N/A'}</td></tr>
+                        <tr><td><strong>IP do Servidor:</strong></td><td>${data.ip || 'N/A'}</td></tr>
+                        <tr><td><strong>Hostname:</strong></td><td>${data.hostname || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('database').innerHTML = databaseHtml;
+
+            let clinicoHtml = `
+                <h4>Quantidades de Registros:</h4>
+                <table class="data-table">
+                    <thead><tr><th>Métrica</th><th>Valor</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Pré-Operatórios:</strong></td><td>${data.clinico.preops || 'N/A'}</td></tr>
+                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.clinico.posops || 'N/A'}</td></tr>
+                        <tr><td><strong>Pacientes:</strong></td><td>${data.clinico.pacientes || 'N/A'}</td></tr>
+                        <tr><td><strong>Consultas:</strong></td><td>${data.clinico.consultas || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+                <br>
+                <h4>Receitas:</h4>
+                <table class="data-table">
+                    <thead><tr><th>Tipo</th><th>Valor</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Pós-Operatórios:</strong></td><td>${data.receitas.posop || 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('clinico').innerHTML = clinicoHtml;
+
+            let notasHtml = `
+                <h4>Quantidade de Notas Emitidas:</h4>
+                <table class="data-table">
+                    <thead><tr><th>Mês</th><th>Notas Emitidas</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Mês 1 (Atual):</strong></td><td>${data.notas.mes1 !== null ? data.notas.mes1 : 'N/A'}</td></tr>
+                        <tr><td><strong>Mês 2 (Anterior):</strong></td><td>${data.notas.mes2 !== null ? data.notas.mes2 : 'N/A'}</td></tr>
+                        <tr><td><strong>Mês 3 (Há 2 meses):</strong></td><td>${data.notas.mes3 !== null ? data.notas.mes3 : 'N/A'}</td></tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('notas').innerHTML = notasHtml;
+            
+            valorLicencaSpan.textContent = `R$ ${valorTotalLicencasAtivas.toFixed(2).replace('.', ',')}`;
+            valorTotalDiv.classList.remove('hidden');
+
             dashboardDiv.classList.remove('hidden');
-
-        } catch (error) {
+        } catch (err) {
+            alert(`Erro ao buscar dados da clínica ${clinic}. Detalhes: ${err.message}. Por favor, verifique o console do navegador para mais informações (F12 > Console).`);
+            console.error('Erro ao buscar dados da clínica:', err);
+            dashboardDiv.classList.add('hidden');
+            valorTotalDiv.classList.add('hidden');
+            whatsappButtonsContainer.classList.add('hidden');
+        } finally {
             loadingDiv.classList.add('hidden');
-            alert(`Erro: ${error.message}`);
-            console.error('Erro:', error);
-            selectClinicSection.classList.remove('hidden');
         }
-    });
-
-    // Função de formatação de moeda
-    function formatCurrency(value) {
-        return new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(value);
     }
-    
-    // Esqueleto da função para buscar dados do EBA
+
+    buscarBtn.addEventListener('click', fetchData);
+
+    // Função de esqueleto para buscar e exibir dados do EBA
     async function fetchEbaData() {
+        // Esconde o conteúdo anterior e mostra o loading
         loadingDiv.classList.remove('hidden');
-        dashboardEba.classList.add('hidden');
+        document.querySelector('.eba-dashboard').classList.add('hidden');
+        document.getElementById('eba-finance').innerHTML = '';
+        document.getElementById('eba-metrics').innerHTML = '';
 
         try {
-            // Subsitua com a sua lógica de requisição para a API do EBA
+            // Simulação de requisição à API do EBA
             const response = await fetch('https://api.eba-system.com/data');
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados do EBA.');
             }
             const data = await response.json();
-            
+
             // Lógica para preencher os cards do EBA com os dados
-            // document.getElementById('eba-finance').innerHTML = `...`;
+            document.getElementById('eba-finance').innerHTML = `
+                <p><strong>Receita Total:</strong> R$ ${data.receitaTotal.toFixed(2).replace('.', ',')}</p>
+                <p><strong>Despesas Mensais:</strong> R$ ${data.despesas.toFixed(2).replace('.', ',')}</p>
+                <p><strong>Lucro Líquido:</strong> R$ ${(data.receitaTotal - data.despesas).toFixed(2).replace('.', ',')}</p>
+            `;
+            document.getElementById('eba-metrics').innerHTML = `
+                <p><strong>Atendimentos:</strong> ${data.atendimentos}</p>
+                <p><strong>Pacientes Ativos:</strong> ${data.pacientesAtivos}</p>
+                <p><strong>Média de Atendimento:</strong> ${data.mediaAtendimento}</p>
+            `;
 
-            loadingDiv.classList.add('hidden');
-            dashboardEba.classList.remove('hidden');
-
+            document.querySelector('.eba-dashboard').classList.remove('hidden');
         } catch (error) {
-            alert(`Erro: ${error.message}`);
+            alert(`Erro ao buscar dados do EBA: ${error.message}`);
             console.error('Erro ao buscar dados do EBA:', error);
+            document.querySelector('.eba-dashboard').classList.add('hidden');
+        } finally {
             loadingDiv.classList.add('hidden');
         }
     }
