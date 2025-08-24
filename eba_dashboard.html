@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard EBA</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="eba_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHpZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <a href="hub.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar ao Hub</a>
+        <div class="logo-container">
+            <img src="https://static.wixstatic.com/media/164f35_fdb6a6806a254ad684389486d33109ef~mv2.png/v1/fill/w_228,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/164f35_fdb6a6806a254ad684389486d33109ef~mv2.png" alt="Logotipo EBA" class="eba-logo">
+        </div>
+        <h1><i class="fas fa-chart-line"></i> Dashboard EBA</h1>
+        
+        <div class="select-clinic-header">
+            <div class="select-clinic-content">
+                <label for="clinicSelect">Selecione uma Clínica:</label><br>
+                <select id="clinicSelect">
+                    <option value="">-- Escolha uma clínica --</option>
+                    </select>
+                <br>
+                <button id="buscarBtn">Buscar</button>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <ul>
+                <li><a href="#licencas" class="nav-item active"><i class="fas fa-id-badge"></i> Licenças e Contrato</a></li>
+                <li><a href="#servidor" class="nav-item"><i class="fas fa-database"></i> Servidor</a></li>
+                <li><a href="#clinico" class="nav-item"><i class="fas fa-user-md"></i> Dados Clínicos</a></li>
+                <li><a href="#notas" class="nav-item"><i class="fas fa-file-invoice"></i> Notas Emitidas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div id="loading" class="loading hidden">
+            <i class="fas fa-spinner fa-spin"></i> Carregando dados...
+        </div>
+
+        <div id="dashboard" class="dashboard hidden">
+            <div id="licencas-section" class="dashboard-section card">
+                <h3><i class="fas fa-id-badge"></i> Licenças e Contrato</h3>
+                <div id="licencas" class="card-content">
+                    <div id="licencas-data-container">
+                        </div>
+                </div>
+            </div>
+            
+            <div id="servidor-section" class="dashboard-section card hidden">
+                <h3><i class="fas fa-database"></i> Servidor</h3>
+                <div id="database" class="card-content"></div>
+            </div>
+            
+            <div id="clinico-section" class="dashboard-section card hidden">
+                <h3><i class="fas fa-user-md"></i> Dados Clínicos</h3>
+                <div id="clinico" class="card-content"></div>
+            </div>
+            
+            <div id="notas-section" class="dashboard-section card hidden">
+                <h3><i class="fas fa-file-invoice"></i> Notas Emitidas</h3>
+                <div id="notas" class="card-content"></div>
+            </div>
+        </div>
+
+        <div id="valorTotal" class="total-valor hidden">
+            💸 Valor Estimado das Licenças Ativas: <span id="valorLicenca"></span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script src="eba_script.js"></script>
+
+    <footer>
+        <p>&copy; 2025 EBA Sistemas. Todos os direitos reservados. Desenvolvedor Analista Nadson Fernandes.</p>
+    </footer>
+</body>
+</html>

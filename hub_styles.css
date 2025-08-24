@@ -1,0 +1,94 @@
+:root {
+    --cevicom-red: #D20A11;
+    --cevicom-black: #1A1A1A;
+    --cevicom-white: #FFFFFF;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cevicom-black);
+    color: var(--cevicom-white);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.hub-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: #222222;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+    color: var(--cevicom-white);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid var(--cevicom-red);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.logo-cevicom-container {
+    margin-bottom: 2rem;
+}
+
+.cevicom-logo {
+    max-width: 250px;
+    height: auto;
+}
+
+.system-selection {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.system-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--cevicom-white);
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 2rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 280px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.system-button:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+.system-button img {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.igut {
+    background: #0080ff; /* Fundo mais escuro para o botão do IGUT */
+}
+
+.eba {
+    background: #c0392b; /* Fundo vermelho para o botão do EBA */
+}
+
+footer {
+    padding-top: 2rem;
+    border-top: 1px solid #444;
+    font-size: 0.85rem;
+    color: #999;
+}
